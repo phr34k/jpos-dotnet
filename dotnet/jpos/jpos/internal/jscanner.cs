@@ -187,6 +187,7 @@ namespace test.jpos
         [DebuggerNonUserCode]
         public override void Open()
         {
+            Console.WriteLine(deviceInfo.Name);
             jobj.open(deviceInfo.Name); 
         }
 

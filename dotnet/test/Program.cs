@@ -45,7 +45,7 @@ namespace test
 
 
             listener2.OnStatusUpdate += Listener2_OnStatusUpdate;            
-            listener.OnDataReceived += Listener_OnDataReceived;
+            listener.OnDataReceived += Listener_OnDataReceived;        
             scanner = explorer.CreateInstance(explorer.GetDevices(jpos.DeviceType.Scanner)[0]) as jpos.Scanner;
             //printer = explorer.CreateInstance(explorer.GetDevices(jpos.DeviceType.PosPrinter)[0]) as jpos.PosPrinter;
             //coins = explorer.CreateInstance(explorer.GetDevices(jpos.DeviceType.PinPad)[0]) as jpos.PosCommon;
