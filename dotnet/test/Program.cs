@@ -17,9 +17,9 @@ namespace test
         private static void Listener_OnDataReceived(object source, jpos.DataListener listener, jpos.DataEventArgs evt)
         {
             Console.WriteLine("Scanner_DataEvent {0}", evt.ToString());
-            printer.TransactionPrint(jpos.PrinterStation.Receipt, 0);
-            printer.PrintNormal(jpos.PrinterStation.Receipt, string.Format("{0} {1}\n", System.Text.Encoding.ASCII.GetString((source as jpos.Scanner).ScanData), (source as jpos.Scanner).ScanDataType));
-            printer.TransactionPrint(jpos.PrinterStation.Receipt, 0);
+            if( scanner != null ) printer.TransactionPrint(jpos.PrinterStation.Receipt, 0);
+            if( scanner != null ) printer.PrintNormal(jpos.PrinterStation.Receipt, string.Format("{0} {1}\n", System.Text.Encoding.ASCII.GetString((source as jpos.Scanner).ScanData), (source as jpos.Scanner).ScanDataType));
+            if( scanner != null ) printer.TransactionPrint(jpos.PrinterStation.Receipt, 0);
         }
 
 
@@ -45,27 +45,28 @@ namespace test
             listener2.OnStatusUpdate += Listener2_OnStatusUpdate;            
             listener.OnDataReceived += Listener_OnDataReceived;
             scanner = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultScanner", Type = jpos.DeviceType.Scanner }) as jpos.Scanner;
-            printer = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultPOSPrinter", Type = jpos.DeviceType.PosPrinter }) as jpos.PosPrinter;
-            coins = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultPINPad", Type = jpos.DeviceType.PinPad }) as jpos.PosCommon;
+            //printer = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultPOSPrinter", Type = jpos.DeviceType.PosPrinter }) as jpos.PosPrinter;
+            //coins = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultPINPad", Type = jpos.DeviceType.PinPad }) as jpos.PosCommon;
 
-            scanner.addStatusListener(listener2);
-            scanner.addDataListener(listener);
-            scanner.Open();
-            printer.Open();
-            coins.Open();
-            scanner.Claim(0);
-            printer.Claim(0);
-            coins.Claim(0);
-            scanner.DeviceEnabled = true;
-            printer.DeviceEnabled = true;
+            
+            if( scanner != null ) scanner.addStatusListener(listener2);
+            if( scanner != null ) scanner.addDataListener(listener);
+            if( scanner != null ) scanner.Open();
+            if( printer != null ) printer.Open();
+            if( coins != null ) coins.Open();
+            if( scanner != null ) scanner.Claim(0);
+            if( printer != null ) printer.Claim(0);
+            if( coins != null ) coins.Claim(0);
+            if( scanner != null ) scanner.DeviceEnabled = true;
+            if( printer != null ) printer.DeviceEnabled = true;
             //coins.DeviceEnabled = true;
             Console.ReadLine();
-            scanner.Release();
-            printer.Release();
-            coins.Release();            
-            scanner.Close();
-            printer.Close();
-            coins.Close();
+            if( scanner != null ) scanner.Release();
+            if( printer != null ) printer.Release();
+            if( coins != null ) coins.Release();            
+            if( scanner != null ) scanner.Close();
+            if( printer != null ) printer.Close();
+            if( coins != null ) coins.Close();
 
 
             d.Teardown();
