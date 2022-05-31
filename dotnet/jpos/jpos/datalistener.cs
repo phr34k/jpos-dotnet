@@ -28,7 +28,7 @@ namespace test.jpos
             void NativeDataListener.Native.Scanner_DataEvent(NativeDataListener self, internals.jpos.events.DataEvent p0)
             {
                 //get the origional NativeDataListener object
-                NativeDataListener registered;
+                NativeDataListener? registered;
                 if( NativeDataListener.TryGet(self.Handle, out registered) == false )
                 {
                     return;
@@ -36,9 +36,9 @@ namespace test.jpos
 
                 //[registered.Handle]
 
-                NativeDataListener output;
+                NativeDataListener? output;
                 WeakReference<DataListener> weakRef = DataListener.dataListeners.Where((m) => m.Key.TryGetTarget(out output) && object.ReferenceEquals(output, registered)).FirstOrDefault().Value;
-                DataListener listnerObject = null;
+                DataListener? listnerObject = null;
                 if(weakRef.TryGetTarget(out listnerObject) == false )
                 {
                     return;
@@ -55,7 +55,7 @@ namespace test.jpos
         
         internal void OnScan(internals.jpos.events.DataEvent evt)
         {
-            jpos.IJPosObject scanner = null;
+            jpos.IJPosObject? scanner = null;
 
             JObject source = evt.getSource();
             if (TryGetScanner<jpos.IJPosObject>(source, out scanner) == false)
@@ -67,12 +67,13 @@ namespace test.jpos
             long seq = evt.getSequenceNumber();
             long when = evt.getWhen();
             jpos.DataEventArgs args = new jpos.DataEventArgs(status, new DateTime(when), Convert.ToInt32(seq));
+            if (scanner == null) return;
             OnDataReceived?.Invoke(scanner, this, args);
         }
 
-        public bool TryGetScanner<T>(JObject s, out T l) where T : class, IJPosObject
+        public bool TryGetScanner<T>(JObject s, out T? l) where T : class, IJPosObject
         {
-            IJPosObject output = null;
+            IJPosObject? output = null;
             for (int i = 0; i < scanners.Count; i++)
             {
                 if (scanners[0].TryGetTarget(out output) && JNI.IsSameObject(output.JObject, s) == true)
@@ -109,7 +110,7 @@ namespace test.jpos
 
         ~DataListener()
         {
-            internals.NativeDataListener output = null;
+            internals.NativeDataListener? output = null;
             dataListeners.RemoveAll((m) => m.Key.TryGetTarget(out output) && object.ReferenceEquals(output, jobj));
             internals.NativeDataListener.Unregister(jobj);
         }
@@ -121,7 +122,7 @@ namespace test.jpos
 
         public void Unregister(IJPosObject c)
         {
-            IJPosObject output = null;
+            IJPosObject? output = null;
             scanners.RemoveAll((m) => m.TryGetTarget(out output) && object.ReferenceEquals(output, c));
         }
     }
@@ -147,9 +148,9 @@ namespace test.jpos
 
                 //[registered.Handle]
 
-                NativeStatusUpdateListener output;
+                NativeStatusUpdateListener? output;
                 WeakReference<StatusListener> weakRef = StatusListener.dataListeners.Where((m) => m.Key.TryGetTarget(out output) && object.ReferenceEquals(output, registered)).FirstOrDefault().Value;
-                StatusListener listnerObject = null;
+                StatusListener? listnerObject = null;
                 if (weakRef.TryGetTarget(out listnerObject) == false)
                 {
                     return;
@@ -166,7 +167,7 @@ namespace test.jpos
 
         internal void OnScan(internals.jpos.events.StatusUpdateEvent evt)
         {
-            jpos.IJPosObject scanner = null;
+            jpos.IJPosObject? scanner = null;
 
             JObject source = evt.getSource();
             if (TryGetScanner<jpos.IJPosObject>(source, out scanner) == false)
@@ -178,12 +179,13 @@ namespace test.jpos
             long seq = evt.getSequenceNumber();
             long when = evt.getWhen();
             jpos.DataEventArgs args = new jpos.DataEventArgs(status, new DateTime(when), Convert.ToInt32(seq));
+            if (scanner == null) return;
             OnStatusUpdate?.Invoke(scanner, this, args);
         }
 
-        public bool TryGetScanner<T>(JObject s, out T l) where T : class, IJPosObject
+        public bool TryGetScanner<T>(JObject s, out T? l) where T : class, IJPosObject
         {
-            IJPosObject output = null;
+            IJPosObject? output = null;
             for (int i = 0; i < scanners.Count; i++)
             {
                 if (scanners[0].TryGetTarget(out output) && JNI.IsSameObject(output.JObject, s) == true)
@@ -220,7 +222,7 @@ namespace test.jpos
 
         ~StatusListener()
         {
-            internals.NativeStatusUpdateListener output = null;
+            internals.NativeStatusUpdateListener? output = null;
             dataListeners.RemoveAll((m) => m.Key.TryGetTarget(out output) && object.ReferenceEquals(output, jobj));
             internals.NativeStatusUpdateListener.Unregister(jobj);
         }
@@ -232,7 +234,7 @@ namespace test.jpos
 
         public void Unregister(IJPosObject c)
         {
-            IJPosObject output = null;
+            IJPosObject? output = null;
             scanners.RemoveAll((m) => m.TryGetTarget(out output) && object.ReferenceEquals(output, c));
         }
     }

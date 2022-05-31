@@ -46,6 +46,10 @@ internal class JVMTIArray<T> : IDisposable, IEnumerable<T>
 
                 this.Elements = (T[])(object)buffer;
             }
+            else
+            {
+                throw new InvalidCastException();
+            }
         }
     }
 

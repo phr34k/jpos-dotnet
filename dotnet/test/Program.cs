@@ -42,11 +42,13 @@ namespace test
             listener = new jpos.DataListener(explorer);
             listener2 = new jpos.StatusListener(explorer);
 
+
+
             listener2.OnStatusUpdate += Listener2_OnStatusUpdate;            
             listener.OnDataReceived += Listener_OnDataReceived;
-            scanner = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultScanner", Type = jpos.DeviceType.Scanner }) as jpos.Scanner;
-            printer = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultPOSPrinter", Type = jpos.DeviceType.PosPrinter }) as jpos.PosPrinter;
-            coins = explorer.CreateDevice(new jpos.DeviceInfo() { Name = "defaultPINPad", Type = jpos.DeviceType.PinPad }) as jpos.PosCommon;
+            scanner = explorer.CreateInstance(explorer.GetDevices(jpos.DeviceType.Scanner)[0]) as jpos.Scanner;
+            printer = explorer.CreateInstance(explorer.GetDevices(jpos.DeviceType.PosPrinter)[0]) as jpos.PosPrinter;
+            coins = explorer.CreateInstance(explorer.GetDevices(jpos.DeviceType.PinPad)[0]) as jpos.PosCommon;
 
             scanner.addStatusListener(listener2);
             scanner.addDataListener(listener);

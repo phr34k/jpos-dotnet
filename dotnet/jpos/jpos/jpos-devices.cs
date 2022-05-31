@@ -9,6 +9,14 @@ namespace test.jpos
 
     public abstract class PosCommon
     {
+        internal DeviceInfo deviceInfo;
+        public PosCommon(DeviceInfo info) { deviceInfo = info; }
+        public abstract bool FreezeEvents
+        {
+            get;
+            set;
+        }
+
         public abstract string DeviceName { get; }
         public abstract string DeviceDescription { get; }
         public abstract bool Claimed { get; }
@@ -19,6 +27,11 @@ namespace test.jpos
         public abstract void Claim(int timeout);
         public abstract void Close();
         public abstract void Release();
+        public abstract void CheckHealth(HealthCheckLevel level);
+
+        public abstract PowerNotification PowerNotify { get; set; }
+
+        public abstract event StatusUpdateEventHandler StatusUpdateEvent;
 
 
 
@@ -55,11 +68,17 @@ namespace test.jpos
 
     public abstract class Scanner : PosCommon
     {
+        public Scanner(DeviceInfo info) : base(info) { }
+
+        public abstract bool DataEventEnabled { get; set; }
+
         public abstract bool DecodeData
         {
             get;
             set;
         }
+
+        public abstract PowerReporting CapPowerReporting { get; }
 
         public abstract int DataCount { get; }
         public abstract byte[] ScanData { get; }
@@ -70,10 +89,14 @@ namespace test.jpos
         public abstract void removeDataListener(DataListener listener);
         public abstract void addStatusListener(StatusListener listener);
         public abstract void removeStatusListener(StatusListener listener);
+
+        public abstract event DataEventHandler DataEvent;
+        public abstract event DeviceErrorEventHandler ErrorEvent;
     }
 
     public abstract class PosPrinter : PosCommon
     {
+        public PosPrinter(DeviceInfo info) : base(info) { }
         //
         // Summary:
         //     Indicates the bitmap should be printed with one bitmap pixel per printer dot.
@@ -400,6 +423,9 @@ namespace test.jpos
         public abstract PrinterCartridgeSensors CapRecCartridgeSensor { get; }
         public abstract PrinterCartridgeStates RecCartridgeState { get; }
         public abstract PowerReporting CapPowerReporting { get; }
+
+        public abstract PrinterCartridgeNotify CartridgeNotify { get; set; }
+
         public abstract bool CapRecPaperCut { get; }
         public abstract bool CapTransaction { get; }
         public abstract bool CapRecEmptySensor { get; }
@@ -417,11 +443,17 @@ namespace test.jpos
         public abstract void CutPaper(int percentage);
 
         public abstract void ClearOutput();
+
+
+        public abstract event DataEventHandler DataEvent;
+        public abstract event DeviceErrorEventHandler ErrorEvent;
+        public abstract event OutputCompleteEventHandler OutputCompleteEvent;
     }
 
 
     public abstract class CashDrawer : PosCommon
     {
+        public CashDrawer(DeviceInfo info) : base(info) { }
         //
         // Summary:
         //     Incremented during the OpenDrawer method if the cash drawer successfully opens.
@@ -440,6 +472,7 @@ namespace test.jpos
         public const int StatusOpen = 1;
 
 
+        public abstract PowerReporting CapPowerReporting { get; }
         public abstract bool CapStatus { get; }
 
         public abstract bool CapStatusMultiDrawerDetect { get; }
@@ -448,5 +481,14 @@ namespace test.jpos
 
         public abstract void OpenDrawer();
         public abstract void WaitForDrawerClose(int beepTimeout, int beepFrequency, int beepDuration, int beepDelay);
+
+        public abstract event DataEventHandler DataEvent;
+        public abstract event DeviceErrorEventHandler ErrorEvent;
+    }
+
+
+    public abstract class RemoteOrderDisplay : PosCommon
+    {
+        public RemoteOrderDisplay(DeviceInfo info) : base(info) { }
     }
 }

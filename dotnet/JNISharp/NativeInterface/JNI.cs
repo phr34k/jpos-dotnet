@@ -756,6 +756,8 @@ public unsafe static partial class JNI
 
     public static void SetStaticField<T>(JClass cls, JFieldID fieldID, T value)
     {
+        if( value == null ) throw new ArgumentNullException("value");
+
         unsafe
         {
             switch (value)
@@ -920,7 +922,7 @@ public unsafe static partial class JNI
         }
     }
 
-    public static JObjectArray<T> NewObjectArray<T>(int length, JClass clazz, JObject init) where T : JObject, new()
+    public static JObjectArray<T> NewObjectArray<T>(int length, JClass clazz, JObject? init) where T : JObject, new()
     {
         IntPtr res = env->Functions->NewObjectArray(Env, length, clazz.Handle, init?.Handle ?? IntPtr.Zero);
         using JObject local = new() { Handle = res, ReferenceType = JNI.ReferenceType.Local };

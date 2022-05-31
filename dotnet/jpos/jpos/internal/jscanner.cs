@@ -16,14 +16,25 @@ namespace test.jpos
     internal class JScanner2 : Scanner, IJPosObject
     {
         internals.Scanner jobj;
-        string name = null;
         public JObject JObject => jobj;
 
 
-        public JScanner2(string Name)
+        public override bool FreezeEvents
         {
-            jobj = new internals.Scanner();
-            name = Name;
+            [DebuggerNonUserCode]
+            get
+            {
+                return jobj.getFreezeEvents();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setFreezeEvents(value);
+            }
+        }
+        public JScanner2(DeviceInfo info) : base(info)
+        {
+            jobj = new internals.Scanner();            
         }
 
         public override ControlState State
@@ -32,6 +43,15 @@ namespace test.jpos
             get
             {
                 return (ControlState)jobj.getState();
+            }
+        }
+
+        public override PowerReporting CapPowerReporting
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return (PowerReporting)jobj.getCapPowerReporting();
             }
         }
 
@@ -55,6 +75,21 @@ namespace test.jpos
             set
             {
                 jobj.setDeviceEnabled(value);
+            }
+        }
+
+
+        public override bool DataEventEnabled
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return jobj.getDataEventEnabled();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setDataEventEnabled(value);
             }
         }
 
@@ -126,6 +161,20 @@ namespace test.jpos
             }
         }
 
+        public override PowerNotification PowerNotify
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return (PowerNotification)jobj.getPowerNotify();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setPowerNotify((int)value);
+            }
+        }
+
         public override string DeviceDescription
         {
             [DebuggerNonUserCode]
@@ -138,7 +187,7 @@ namespace test.jpos
         [DebuggerNonUserCode]
         public override void Open()
         {
-            jobj.open(name);
+            jobj.open(deviceInfo.Name); 
         }
 
         [DebuggerNonUserCode]
@@ -187,6 +236,54 @@ namespace test.jpos
             jobj.removeStatusUpdateListener(new internals.events.StatusUpdateListener(new JClone<JObject>() { Value = listener.jobj }));
             listener.Unregister(this);
         }
+
+        [DebuggerNonUserCode]
+        public override void CheckHealth(HealthCheckLevel level)
+        {
+            jobj.checkHealth((int)level);
+        }
+
+
+        public override event DataEventHandler DataEvent
+        {
+            add 
+            { 
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+        }
+
+        public override event DeviceErrorEventHandler ErrorEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+
+        }
+
+        public override event StatusUpdateEventHandler StatusUpdateEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+
+        }
+
+
+        
 
 
     }

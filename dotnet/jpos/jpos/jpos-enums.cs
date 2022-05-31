@@ -6,6 +6,28 @@ using System.Threading.Tasks;
 
 namespace test.jpos
 {
+    //
+    // Summary:
+    //     Enumerates the possible types of health checks to be performed on a device.
+    public enum HealthCheckLevel
+    {
+        //
+        // Summary:
+        //     Performs a health check that does not physically change the device. The device
+        //     is tested by internal tests to the extent possible.
+        Internal = 1,
+        //
+        // Summary:
+        //     Performs a more thorough test that may change the device. For example, a pattern
+        //     may be printed on the printer.
+        External,
+        //
+        // Summary:
+        //     Performs an interactive test of the device. The supporting service object typically
+        //     displays a modal dialog box to present test options and results.
+        Interactive
+    }
+
 
     //
     // Summary:
@@ -582,4 +604,106 @@ namespace test.jpos
         //     The device is either turned off or offline.
         OffOffline = 2004
     }
+
+    //
+    // Summary:
+    //     Enumerates the valid responses an application can make to an error event.
+    public enum ErrorResponse
+    {
+        //
+        // Summary:
+        //     This response directs the device to retry the input. The error state is exited,
+        //     and State is changed to Idle.
+        Retry = 11,
+        //
+        // Summary:
+        //     Clear the buffered DataEvent events and ErrorEvent events and exit the error
+        //     state, changing State to Idle.
+        Clear,
+        //
+        // Summary:
+        //     This response acknowledges the error and directs the device to continue processing.
+        //     The device remains in the error state, and delivers additional data events as
+        //     directed by the DataEventEnabled property. When all input has been delivered
+        //     and the DataEventEnabled property is again set to TRUE, another ErrorEvent is
+        //     delivered with locus Input.
+        ContinueInput
+    }
+
+    //
+    // Summary:
+    //     Enumerates possible times when an error occurred.
+    public enum ErrorLocus
+    {
+        //
+        // Summary:
+        //     An error occurred while processing asynchronous output.
+        Output = 1,
+        //
+        // Summary:
+        //     Error occurred while gathering or processing event-driven input. No input data
+        //     is available.
+        Input,
+        //
+        // Summary:
+        //     An error occurred while gathering or processing event-driven input, and some
+        //     previously buffered data is available.
+        InputData
+    }
+
+    //
+    // Summary:
+    //     Enumerates the possible states of power notification for the current device.
+    public enum PowerNotification
+    {
+        //
+        // Summary:
+        //     The service object will not provide power notifications to the application. No
+        //     power notification StatusUpdateEvent events will be raised, and the PowerState
+        //     property may not be set.
+        Disabled,
+        //
+        // Summary:
+        //     The service object will raise power notification StatusUpdateEvent events and
+        //     update the PowerState property, beginning when the DeviceEnabled property is
+        //     set to true. The level of functionality available depends on the value of the
+        //     CapPowerReporting property.
+        Enabled
+    }
+
+    //
+    // Summary:
+    //     Enumerates the possible cartridge-state notification capabilities for a printer.
+    public enum PrinterCartridgeNotify
+    {
+        //
+        // Summary:
+        //     Cartridge-state notifications are not available.
+        Disabled,
+        //
+        // Summary:
+        //     Cartridge-state notifications are available.
+        Enabled
+    }
+
+
+    public enum DeviceCompatibilities
+    {
+        //
+        // Summary:
+        //     Indicates compatibility with any COM service object.
+        Opos = 0x1,
+        //
+        // Summary:
+        //     Indicates compatibility with any .NET service object.
+        CompatibilityLevel1 = 0x2,
+        //
+        // Summary:
+        //     Indicates compatibility with any .NET or COM service object.
+        OposAndCompatibilityLevel1 = 0x3
+    }
+
+
+
+
 }

@@ -30,7 +30,7 @@ public unsafe static partial class JVMTI
         }
     }
 
-    public static JClass GetLoadedClass(string sig)
+    public static JClass? GetLoadedClass(string sig)
     {
         if (LoadedClassCache.TryGetValue(sig, out JClass found))
         {

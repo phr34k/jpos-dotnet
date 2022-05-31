@@ -16,14 +16,14 @@ namespace test.jpos
     {
 
         internals.CashDrawer jobj;
-        string name;
         JObject IJPosObject.JObject => jobj;
 
-        public JCashDrawer2(string Name)
+
+        public JCashDrawer2(DeviceInfo info) : base(info)
         {
             jobj = new internals.CashDrawer();
-            name = Name;
         }
+
 
         public override PowerState PowerState
         {
@@ -40,6 +40,15 @@ namespace test.jpos
             get
             {
                 return jobj.getCapStatus();
+            }
+        }
+
+        public override PowerReporting CapPowerReporting
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return (PowerReporting)jobj.getCapPowerReporting();
             }
         }
 
@@ -87,6 +96,19 @@ namespace test.jpos
             }
         }
 
+        public override bool FreezeEvents
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return jobj.getFreezeEvents();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setFreezeEvents(value);
+            }
+        }
 
 
         public override bool Claimed
@@ -135,7 +157,7 @@ namespace test.jpos
         [DebuggerNonUserCode]
         public override void Open()
         {
-            jobj.open(name);
+            jobj.open(deviceInfo.Name);
         }
 
         [DebuggerNonUserCode]
@@ -156,6 +178,63 @@ namespace test.jpos
             jobj.release();
         }
 
+        [DebuggerNonUserCode]
+        public override void CheckHealth(HealthCheckLevel level)
+        {
+            jobj.checkHealth((int)level);
+        }
+
+        public override PowerNotification PowerNotify
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return (PowerNotification)jobj.getPowerNotify();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setPowerNotify((int)value);
+            }
+        }
+
+        public override event DataEventHandler DataEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+        }
+
+        public override event DeviceErrorEventHandler ErrorEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+
+        }
+
+        public override event StatusUpdateEventHandler StatusUpdateEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+
+        }
     }
 
 }

@@ -14,8 +14,23 @@ namespace test.jpos
 
     public class JExplorer : PosExplorer
     {
+        //DeviceChangedEventHandler devicedAdded;
+        //DeviceChangedEventHandler devicedAdded;
         //public static JClass _nativeDataListener;
         //public static JMethodID _dataListenerConstructor;
+
+
+        public override event DeviceChangedEventHandler DeviceAddedEvent
+        {
+            add { }
+            remove { }
+        }
+
+        public override event DeviceChangedEventHandler DeviceRemovedEvent
+        {
+            add { }
+            remove { }
+        }
 
         void Run(params string[] args)
         {
@@ -109,27 +124,50 @@ namespace test.jpos
             Run(args);
         }
 
-        public override PosCommon CreateDevice(DeviceInfo info)
+        public override DeviceCollection GetDevices()
         {
+            DeviceCollection collection = new DeviceCollection();
+            collection.Add(new jpos.DeviceInfo() { Name = "defaultScanner", Description = "defaultScanner", Type = jpos.DeviceType.Scanner,  UposVersion = "", LogicalNames = new string[] { "defaultScanner" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            collection.Add(new jpos.DeviceInfo() { Name = "defaultPOSPrinter", Description = "defaultPOSPrinter", Type = jpos.DeviceType.PosPrinter, UposVersion = "", LogicalNames = new string[] { "defaultPOSPrinter" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            collection.Add(new jpos.DeviceInfo() { Name = "defaultPINPad", Description = "defaultPINPad", Type = jpos.DeviceType.PinPad, UposVersion = "", LogicalNames = new string[] { "defaultPINPad" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            return collection;
+        }
+
+        public override DeviceCollection GetDevices(string type)
+        {           
+            DeviceCollection collection = new DeviceCollection();
+            if (type == jpos.DeviceType.Scanner)
+                collection.Add(new jpos.DeviceInfo() { Name = "defaultScanner", Description = "defaultScanner", Type = jpos.DeviceType.Scanner, UposVersion = "", LogicalNames = new string[] { "defaultScanner" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            if (type == jpos.DeviceType.PosPrinter)
+                collection.Add(new jpos.DeviceInfo() { Name = "defaultPOSPrinter", Description = "defaultPOSPrinter", Type = jpos.DeviceType.PosPrinter, UposVersion = "", LogicalNames = new string[] { "defaultPOSPrinter" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            if (type == jpos.DeviceType.PinPad)
+                collection.Add(new jpos.DeviceInfo() { Name = "defaultPINPad", Description = "defaultPINPad", Type = jpos.DeviceType.PinPad, UposVersion = "", LogicalNames = new string[] { "defaultPINPad" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            return collection;
+        }
+
+        public override PosCommon CreateInstance(DeviceInfo info)
+        {
+            if (info.Name == null) throw new PosInvalidStateException();
+
             if (info.Type == DeviceType.Scanner)
             {
-                return new JScanner2(info.Name);
+                return new JScanner2(info);
             }
             else if (info.Type == DeviceType.PosPrinter)
             {
-                return new JPOSPrinter2(info.Name);
+                return new JPOSPrinter2(info);
             }
             else if (info.Type == DeviceType.CashDrawer)
             {
-                return new JCashDrawer2(info.Name);
+                return new JCashDrawer2(info);
             }
             else if (info.Type == DeviceType.CoinDispenser)
             {
-                return new JCoinDispenser(info.Name);
+                return new JCoinDispenser(info);
             }
             else if (info.Type == DeviceType.PinPad)
             {
-                return new JPINPad(info.Name);
+                return new JPINPad(info); 
             }
             else
             {

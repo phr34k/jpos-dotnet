@@ -414,7 +414,7 @@ class EventObject : JObject {
 
 namespace jpos {
 class BaseControl : JObject {
-	protected static JClass _class = JNI.FindClass("jpos/BaseControl");
+	protected static JClass _class;
 	protected static string _getState0 = "()I";
 	protected static string _close1 = "()V";
 	protected static string _open2 = "(Ljava/lang/String;)V";
@@ -434,25 +434,70 @@ class BaseControl : JObject {
 	protected static string _getDeviceServiceDescription16 = "()Ljava/lang/String;";
 	protected static string _getDeviceServiceVersion17 = "()I";
 	protected static string _getPhysicalDeviceName18 = "()Ljava/lang/String;";
-	protected static JMethodID _mgetState0 = _class.GetMethodID("getState", _getState0);
-	protected static JMethodID _mclose1 = _class.GetMethodID("close", _close1);
-	protected static JMethodID _mopen2 = _class.GetMethodID("open", _open2);
-	protected static JMethodID _mrelease3 = _class.GetMethodID("release", _release3);
-	protected static JMethodID _mgetCheckHealthText4 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText4);
-	protected static JMethodID _msetFreezeEvents5 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents5);
-	protected static JMethodID _mcheckHealth6 = _class.GetMethodID("checkHealth", _checkHealth6);
-	protected static JMethodID _mdirectIO7 = _class.GetMethodID("directIO", _directIO7);
-	protected static JMethodID _mgetFreezeEvents8 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents8);
-	protected static JMethodID _msetDeviceEnabled9 = _class.GetMethodID("setDeviceEnabled", _setDeviceEnabled9);
-	protected static JMethodID _mclaim10 = _class.GetMethodID("claim", _claim10);
-	protected static JMethodID _mgetDeviceEnabled11 = _class.GetMethodID("getDeviceEnabled", _getDeviceEnabled11);
-	protected static JMethodID _mgetClaimed12 = _class.GetMethodID("getClaimed", _getClaimed12);
-	protected static JMethodID _mgetPhysicalDeviceDescription13 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription13);
-	protected static JMethodID _mgetDeviceControlDescription14 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription14);
-	protected static JMethodID _mgetDeviceControlVersion15 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion15);
-	protected static JMethodID _mgetDeviceServiceDescription16 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription16);
-	protected static JMethodID _mgetDeviceServiceVersion17 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion17);
-	protected static JMethodID _mgetPhysicalDeviceName18 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName18);
+	protected static JMethodID _mgetState0;
+	protected static JMethodID _mclose1;
+	protected static JMethodID _mopen2;
+	protected static JMethodID _mrelease3;
+	protected static JMethodID _mgetCheckHealthText4;
+	protected static JMethodID _msetFreezeEvents5;
+	protected static JMethodID _mcheckHealth6;
+	protected static JMethodID _mdirectIO7;
+	protected static JMethodID _mgetFreezeEvents8;
+	protected static JMethodID _msetDeviceEnabled9;
+	protected static JMethodID _mclaim10;
+	protected static JMethodID _mgetDeviceEnabled11;
+	protected static JMethodID _mgetClaimed12;
+	protected static JMethodID _mgetPhysicalDeviceDescription13;
+	protected static JMethodID _mgetDeviceControlDescription14;
+	protected static JMethodID _mgetDeviceControlVersion15;
+	protected static JMethodID _mgetDeviceServiceDescription16;
+	protected static JMethodID _mgetDeviceServiceVersion17;
+	protected static JMethodID _mgetPhysicalDeviceName18;
+
+	static BaseControl()
+	{
+		Trace.TraceInformation("Initializing BaseControl");
+		_class = JNI.FindClass("jpos/BaseControl");
+		if (_class == null) throw new PosInvalidStateException();
+		_mgetState0 = _class.GetMethodID("getState", _getState0);
+		if (_mgetState0.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mclose1 = _class.GetMethodID("close", _close1);
+		if (_mclose1.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mopen2 = _class.GetMethodID("open", _open2);
+		if (_mopen2.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mrelease3 = _class.GetMethodID("release", _release3);
+		if (_mrelease3.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetCheckHealthText4 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText4);
+		if (_mgetCheckHealthText4.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_msetFreezeEvents5 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents5);
+		if (_msetFreezeEvents5.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mcheckHealth6 = _class.GetMethodID("checkHealth", _checkHealth6);
+		if (_mcheckHealth6.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mdirectIO7 = _class.GetMethodID("directIO", _directIO7);
+		if (_mdirectIO7.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetFreezeEvents8 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents8);
+		if (_mgetFreezeEvents8.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_msetDeviceEnabled9 = _class.GetMethodID("setDeviceEnabled", _setDeviceEnabled9);
+		if (_msetDeviceEnabled9.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mclaim10 = _class.GetMethodID("claim", _claim10);
+		if (_mclaim10.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceEnabled11 = _class.GetMethodID("getDeviceEnabled", _getDeviceEnabled11);
+		if (_mgetDeviceEnabled11.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetClaimed12 = _class.GetMethodID("getClaimed", _getClaimed12);
+		if (_mgetClaimed12.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetPhysicalDeviceDescription13 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription13);
+		if (_mgetPhysicalDeviceDescription13.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceControlDescription14 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription14);
+		if (_mgetDeviceControlDescription14.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceControlVersion15 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion15);
+		if (_mgetDeviceControlVersion15.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceServiceDescription16 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription16);
+		if (_mgetDeviceServiceDescription16.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceServiceVersion17 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion17);
+		if (_mgetDeviceServiceVersion17.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetPhysicalDeviceName18 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName18);
+		if (_mgetPhysicalDeviceName18.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+	}
 
 	[DebuggerNonUserCode]
 	public static bool IsInstanceOf(JObject except)
@@ -718,7 +763,7 @@ class BaseControl : JObject {
 
 namespace jpos {
 class BaseJposControl : JObject {
-	protected static JClass _class = JNI.FindClass("jpos/BaseJposControl");
+	protected static JClass _class;
 	protected static string _init0 = "()V";
 	protected static string _getState0 = "()I";
 	protected static string _close1 = "()V";
@@ -739,28 +784,75 @@ class BaseJposControl : JObject {
 	protected static string _getDeviceServiceDescription16 = "()Ljava/lang/String;";
 	protected static string _getDeviceServiceVersion17 = "()I";
 	protected static string _getPhysicalDeviceName18 = "()Ljava/lang/String;";
-	protected static JMethodID _minit0 = _class.GetMethodID("<init>", _init0);
-	protected static JMethodID _mgetState0 = _class.GetMethodID("getState", _getState0);
-	protected static JMethodID _mclose1 = _class.GetMethodID("close", _close1);
-	protected static JMethodID _mopen2 = _class.GetMethodID("open", _open2);
-	protected static JMethodID _mrelease3 = _class.GetMethodID("release", _release3);
-	protected static JMethodID _mgetCheckHealthText4 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText4);
-	protected static JMethodID _msetFreezeEvents5 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents5);
-	protected static JMethodID _mcheckHealth6 = _class.GetMethodID("checkHealth", _checkHealth6);
-	protected static JMethodID _mdirectIO7 = _class.GetMethodID("directIO", _directIO7);
-	protected static JMethodID _mgetFreezeEvents8 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents8);
-	protected static JMethodID _msetDeviceEnabled9 = _class.GetMethodID("setDeviceEnabled", _setDeviceEnabled9);
-	protected static JMethodID _mclaim10 = _class.GetMethodID("claim", _claim10);
-	protected static JMethodID _mgetDeviceEnabled11 = _class.GetMethodID("getDeviceEnabled", _getDeviceEnabled11);
-	protected static JMethodID _mgetClaimed12 = _class.GetMethodID("getClaimed", _getClaimed12);
-	protected static JMethodID _mgetPhysicalDeviceDescription13 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription13);
-	protected static JMethodID _mgetDeviceControlDescription14 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription14);
-	protected static JMethodID _mgetDeviceControlVersion15 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion15);
-	protected static JMethodID _mgetDeviceServiceDescription16 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription16);
-	protected static JMethodID _mgetDeviceServiceVersion17 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion17);
-	protected static JMethodID _mgetPhysicalDeviceName18 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName18);
+	protected static JMethodID _minit0;
+	protected static JMethodID _mgetState0;
+	protected static JMethodID _mclose1;
+	protected static JMethodID _mopen2;
+	protected static JMethodID _mrelease3;
+	protected static JMethodID _mgetCheckHealthText4;
+	protected static JMethodID _msetFreezeEvents5;
+	protected static JMethodID _mcheckHealth6;
+	protected static JMethodID _mdirectIO7;
+	protected static JMethodID _mgetFreezeEvents8;
+	protected static JMethodID _msetDeviceEnabled9;
+	protected static JMethodID _mclaim10;
+	protected static JMethodID _mgetDeviceEnabled11;
+	protected static JMethodID _mgetClaimed12;
+	protected static JMethodID _mgetPhysicalDeviceDescription13;
+	protected static JMethodID _mgetDeviceControlDescription14;
+	protected static JMethodID _mgetDeviceControlVersion15;
+	protected static JMethodID _mgetDeviceServiceDescription16;
+	protected static JMethodID _mgetDeviceServiceVersion17;
+	protected static JMethodID _mgetPhysicalDeviceName18;
 
-	[DebuggerNonUserCode]
+	static BaseJposControl()
+	{
+		Trace.TraceInformation("Initializing BaseJposControl");
+		_class = JNI.FindClass("jpos/BaseJposControl");
+		if (_class == null) throw new PosInvalidStateException();
+		_minit0 = _class.GetMethodID("<init>", _init0);
+		if (_minit0.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetState0 = _class.GetMethodID("getState", _getState0);
+		if (_mgetState0.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mclose1 = _class.GetMethodID("close", _close1);
+		if (_mclose1.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mopen2 = _class.GetMethodID("open", _open2);
+		if (_mopen2.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mrelease3 = _class.GetMethodID("release", _release3);
+		if (_mrelease3.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetCheckHealthText4 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText4);
+		if (_mgetCheckHealthText4.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_msetFreezeEvents5 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents5);
+		if (_msetFreezeEvents5.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mcheckHealth6 = _class.GetMethodID("checkHealth", _checkHealth6);
+		if (_mcheckHealth6.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mdirectIO7 = _class.GetMethodID("directIO", _directIO7);
+		if (_mdirectIO7.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetFreezeEvents8 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents8);
+		if (_mgetFreezeEvents8.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_msetDeviceEnabled9 = _class.GetMethodID("setDeviceEnabled", _setDeviceEnabled9);
+		if (_msetDeviceEnabled9.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mclaim10 = _class.GetMethodID("claim", _claim10);
+		if (_mclaim10.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceEnabled11 = _class.GetMethodID("getDeviceEnabled", _getDeviceEnabled11);
+		if (_mgetDeviceEnabled11.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetClaimed12 = _class.GetMethodID("getClaimed", _getClaimed12);
+		if (_mgetClaimed12.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetPhysicalDeviceDescription13 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription13);
+		if (_mgetPhysicalDeviceDescription13.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceControlDescription14 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription14);
+		if (_mgetDeviceControlDescription14.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceControlVersion15 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion15);
+		if (_mgetDeviceControlVersion15.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceServiceDescription16 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription16);
+		if (_mgetDeviceServiceDescription16.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDeviceServiceVersion17 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion17);
+		if (_mgetDeviceServiceVersion17.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetPhysicalDeviceName18 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName18);
+		if (_mgetPhysicalDeviceName18.Handle == IntPtr.Zero) throw new PosInvalidStateException();		
+	}
+
+			[DebuggerNonUserCode]
 	public static bool IsInstanceOf(JObject except)
 	{
 	  return JNI.IsInstanceOf(except, _class);
@@ -1039,7 +1131,7 @@ class BaseJposControl : JObject {
 
 namespace jpos {
 class Scanner : jpos.BaseJposControl {
-	protected static JClass _class = JNI.FindClass("jpos/Scanner");
+	protected static JClass _class;
 	protected static string _init0 = "()V";
 	protected static string _addStatusUpdateListener0 = "(Ljpos/events/StatusUpdateListener;)V";
 	protected static string _setDataEventEnabled1 = "(Z)V";
@@ -1074,40 +1166,116 @@ class Scanner : jpos.BaseJposControl {
 	protected static string _resetStatistics30 = "(Ljava/lang/String;)V";
 	protected static string _getAutoDisable31 = "()Z";
 	protected static string _retrieveStatistics32 = "([Ljava/lang/String;)V";
-	protected static JMethodID _minit0 = _class.GetMethodID("<init>", _init0);
-	protected static JMethodID _maddStatusUpdateListener0 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener0);
-	protected static JMethodID _msetDataEventEnabled1 = _class.GetMethodID("setDataEventEnabled", _setDataEventEnabled1);
-	protected static JMethodID _mgetCapPowerReporting2 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting2);
-	protected static JMethodID _mgetCapUpdateStatistics3 = _class.GetMethodID("getCapUpdateStatistics", _getCapUpdateStatistics3);
-	protected static JMethodID _mgetCapStatisticsReporting4 = _class.GetMethodID("getCapStatisticsReporting", _getCapStatisticsReporting4);
-	protected static JMethodID _mgetCapCompareFirmwareVersion5 = _class.GetMethodID("getCapCompareFirmwareVersion", _getCapCompareFirmwareVersion5);
-	protected static JMethodID _mgetCapUpdateFirmware6 = _class.GetMethodID("getCapUpdateFirmware", _getCapUpdateFirmware6);
-	protected static JMethodID _mcompareFirmwareVersion7 = _class.GetMethodID("compareFirmwareVersion", _compareFirmwareVersion7);
-	protected static JMethodID _mclearInputProperties8 = _class.GetMethodID("clearInputProperties", _clearInputProperties8);
-	protected static JMethodID _mgetDataEventEnabled9 = _class.GetMethodID("getDataEventEnabled", _getDataEventEnabled9);
-	protected static JMethodID _maddDirectIOListener10 = _class.GetMethodID("addDirectIOListener", _addDirectIOListener10);
-	protected static JMethodID _mremoveDirectIOListener11 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener11);
-	protected static JMethodID _maddDataListener12 = _class.GetMethodID("addDataListener", _addDataListener12);
-	protected static JMethodID _maddErrorListener13 = _class.GetMethodID("addErrorListener", _addErrorListener13);
-	protected static JMethodID _mremoveDataListener14 = _class.GetMethodID("removeDataListener", _removeDataListener14);
-	protected static JMethodID _mremoveStatusUpdateListener15 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener15);
-	protected static JMethodID _mremoveErrorListener16 = _class.GetMethodID("removeErrorListener", _removeErrorListener16);
-	protected static JMethodID _mupdateFirmware17 = _class.GetMethodID("updateFirmware", _updateFirmware17);
-	protected static JMethodID _msetPowerNotify18 = _class.GetMethodID("setPowerNotify", _setPowerNotify18);
-	protected static JMethodID _mgetDecodeData19 = _class.GetMethodID("getDecodeData", _getDecodeData19);
-	protected static JMethodID _mgetDataCount20 = _class.GetMethodID("getDataCount", _getDataCount20);
-	protected static JMethodID _mgetScanDataLabel21 = _class.GetMethodID("getScanDataLabel", _getScanDataLabel21);
-	protected static JMethodID _mupdateStatistics22 = _class.GetMethodID("updateStatistics", _updateStatistics22);
-	protected static JMethodID _mgetPowerNotify23 = _class.GetMethodID("getPowerNotify", _getPowerNotify23);
-	protected static JMethodID _mgetPowerState24 = _class.GetMethodID("getPowerState", _getPowerState24);
-	protected static JMethodID _mclearInput25 = _class.GetMethodID("clearInput", _clearInput25);
-	protected static JMethodID _mgetScanDataType26 = _class.GetMethodID("getScanDataType", _getScanDataType26);
-	protected static JMethodID _msetAutoDisable27 = _class.GetMethodID("setAutoDisable", _setAutoDisable27);
-	protected static JMethodID _msetDecodeData28 = _class.GetMethodID("setDecodeData", _setDecodeData28);
-	protected static JMethodID _mgetScanData29 = _class.GetMethodID("getScanData", _getScanData29);
-	protected static JMethodID _mresetStatistics30 = _class.GetMethodID("resetStatistics", _resetStatistics30);
-	protected static JMethodID _mgetAutoDisable31 = _class.GetMethodID("getAutoDisable", _getAutoDisable31);
-	protected static JMethodID _mretrieveStatistics32 = _class.GetMethodID("retrieveStatistics", _retrieveStatistics32);
+	protected static JMethodID _minit0;
+	protected static JMethodID _maddStatusUpdateListener0;
+	protected static JMethodID _msetDataEventEnabled1;
+	protected static JMethodID _mgetCapPowerReporting2;
+	protected static JMethodID _mgetCapUpdateStatistics3;
+	protected static JMethodID _mgetCapStatisticsReporting4;
+	protected static JMethodID _mgetCapCompareFirmwareVersion5;
+	protected static JMethodID _mgetCapUpdateFirmware6;
+	protected static JMethodID _mcompareFirmwareVersion7;
+	protected static JMethodID _mclearInputProperties8;
+	protected static JMethodID _mgetDataEventEnabled9;
+	protected static JMethodID _maddDirectIOListener10;
+	protected static JMethodID _mremoveDirectIOListener11;
+	protected static JMethodID _maddDataListener12;
+	protected static JMethodID _maddErrorListener13;
+	protected static JMethodID _mremoveDataListener14;
+	protected static JMethodID _mremoveStatusUpdateListener15;
+	protected static JMethodID _mremoveErrorListener16;
+	protected static JMethodID _mupdateFirmware17;
+	protected static JMethodID _msetPowerNotify18;
+	protected static JMethodID _mgetDecodeData19;
+	protected static JMethodID _mgetDataCount20;
+	protected static JMethodID _mgetScanDataLabel21;
+	protected static JMethodID _mupdateStatistics22;
+	protected static JMethodID _mgetPowerNotify23;
+	protected static JMethodID _mgetPowerState24;
+	protected static JMethodID _mclearInput25;
+	protected static JMethodID _mgetScanDataType26;
+	protected static JMethodID _msetAutoDisable27;
+	protected static JMethodID _msetDecodeData28;
+	protected static JMethodID _mgetScanData29;
+	protected static JMethodID _mresetStatistics30;
+	protected static JMethodID _mgetAutoDisable31;
+	protected static JMethodID _mretrieveStatistics32;
+
+
+	static Scanner()
+    {
+		Trace.TraceInformation("Initializing scanner");
+		_class = JNI.FindClass("jpos/Scanner");
+		if(_class == null ) throw new PosInvalidStateException();
+		_minit0 = _class.GetMethodID("<init>", _init0);
+		if (_minit0.Handle == IntPtr.Zero ) throw new PosInvalidStateException();
+		_maddStatusUpdateListener0 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener0);
+		if (_minit0.Handle == IntPtr.Zero ) throw new PosInvalidStateException();
+		_msetDataEventEnabled1 = _class.GetMethodID("setDataEventEnabled", _setDataEventEnabled1);
+		if (_msetDataEventEnabled1.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetCapPowerReporting2 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting2);
+		if (_mgetCapPowerReporting2.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetCapUpdateStatistics3 = _class.GetMethodID("getCapUpdateStatistics", _getCapUpdateStatistics3);
+		if (_mgetCapUpdateStatistics3.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetCapStatisticsReporting4 = _class.GetMethodID("getCapStatisticsReporting", _getCapStatisticsReporting4);
+		if (_mgetCapStatisticsReporting4.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetCapCompareFirmwareVersion5 = _class.GetMethodID("getCapCompareFirmwareVersion", _getCapCompareFirmwareVersion5);
+		if (_mgetCapCompareFirmwareVersion5.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetCapUpdateFirmware6 = _class.GetMethodID("getCapUpdateFirmware", _getCapUpdateFirmware6);
+		if (_mgetCapUpdateFirmware6.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mcompareFirmwareVersion7 = _class.GetMethodID("compareFirmwareVersion", _compareFirmwareVersion7);
+		if (_mcompareFirmwareVersion7.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mclearInputProperties8 = _class.GetMethodID("clearInputProperties", _clearInputProperties8);
+		if (_mclearInputProperties8.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDataEventEnabled9 = _class.GetMethodID("getDataEventEnabled", _getDataEventEnabled9);
+		if (_mgetDataEventEnabled9.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_maddDirectIOListener10 = _class.GetMethodID("addDirectIOListener", _addDirectIOListener10);
+		if (_maddDirectIOListener10.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mremoveDirectIOListener11 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener11);
+		if (_mremoveDirectIOListener11.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_maddDataListener12 = _class.GetMethodID("addDataListener", _addDataListener12);
+		if (_minit0.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_maddErrorListener13 = _class.GetMethodID("addErrorListener", _addErrorListener13);
+		if (_maddErrorListener13.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mremoveDataListener14 = _class.GetMethodID("removeDataListener", _removeDataListener14);
+		if (_mremoveDataListener14.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mremoveStatusUpdateListener15 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener15);
+		if (_mremoveStatusUpdateListener15.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mremoveErrorListener16 = _class.GetMethodID("removeErrorListener", _removeErrorListener16);
+		if (_mremoveErrorListener16.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mupdateFirmware17 = _class.GetMethodID("updateFirmware", _updateFirmware17);
+		if (_mupdateFirmware17.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_msetPowerNotify18 = _class.GetMethodID("setPowerNotify", _setPowerNotify18);
+		if (_msetPowerNotify18.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDecodeData19 = _class.GetMethodID("getDecodeData", _getDecodeData19);
+		if (_mgetDecodeData19.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetDataCount20 = _class.GetMethodID("getDataCount", _getDataCount20);
+		if (_mgetDataCount20.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetScanDataLabel21 = _class.GetMethodID("getScanDataLabel", _getScanDataLabel21);
+		if (_mgetScanDataLabel21.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mupdateStatistics22 = _class.GetMethodID("updateStatistics", _updateStatistics22);
+		if (_mupdateStatistics22.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetPowerNotify23 = _class.GetMethodID("getPowerNotify", _getPowerNotify23);
+		if (_mgetPowerNotify23.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetPowerState24 = _class.GetMethodID("getPowerState", _getPowerState24);
+		if (_mgetPowerState24.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mclearInput25 = _class.GetMethodID("clearInput", _clearInput25);
+		if (_mclearInput25.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetScanDataType26 = _class.GetMethodID("getScanDataType", _getScanDataType26);
+		if (_mgetScanDataType26.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_msetAutoDisable27 = _class.GetMethodID("setAutoDisable", _setAutoDisable27);
+		if (_msetAutoDisable27.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_msetDecodeData28 = _class.GetMethodID("setDecodeData", _setDecodeData28);
+		if (_msetDecodeData28.Handle == IntPtr.Zero) throw new PosInvalidStateException();				
+		_mgetScanData29 = _class.GetMethodID("getScanData", _getScanData29);
+		if (_mgetScanData29.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mresetStatistics30 = _class.GetMethodID("resetStatistics", _resetStatistics30);
+		if (_mresetStatistics30.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mgetAutoDisable31 = _class.GetMethodID("getAutoDisable", _getAutoDisable31);
+		if (_mgetAutoDisable31.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+		_mretrieveStatistics32 = _class.GetMethodID("retrieveStatistics", _retrieveStatistics32);
+		if (_mretrieveStatistics32.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+	}
 
 	[DebuggerNonUserCode]
 	public static bool IsInstanceOf(JObject except)
@@ -1139,15 +1307,20 @@ class Scanner : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	protected static JClone<JObject> initialize() 
 	{
-	    JObject ret = JNI.NewObject<JObject>(_class, _minit0);
+		Trace.WriteLine(string.Format("initialize class", "initializing"));
+		JObject ret = JNI.NewObject<JObject>(_class, _minit0);
 	    bool exception = JNI.ExceptionCheck();
-	    if (ret.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+
+		Trace.WriteLine(string.Format("initialize class", "initializing"));
+		if (ret.Handle == IntPtr.Zero) throw new PosInvalidStateException();
 	    if (exception)
 	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+					Trace.WriteLine(string.Format("initialize class", "initializing"));
+					JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
 	    }
 
-	    return new JClone<JObject>() { Value = ret } ;
+				Trace.WriteLine(string.Format("initialize class", "initializing"));
+				return new JClone<JObject>() { Value = ret } ;
 	}
 
 
@@ -6678,7 +6851,7 @@ public interface Native {
 	}
 	public static void Unregister(NativeStatusUpdateListener c)
 	{
-	    NativeStatusUpdateListener output = null;
+	    NativeStatusUpdateListener? output = null;
 	    mapping.RemoveAll((m) => m.TryGetTarget(out output) && object.ReferenceEquals(output, c));
 	}
 	static NativeStatusUpdateListener()

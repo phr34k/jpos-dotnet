@@ -14,10 +14,23 @@ namespace test.jpos
     internal class JCoinDispenser : PosCommon, IJPosObject
     {
         internals.CoinDispenser jobj;
-        string name;
         public JObject JObject => jobj;
 
 
+
+        public override bool FreezeEvents
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return jobj.getFreezeEvents();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setFreezeEvents(value);
+            }
+        }
 
         public override ControlState State
         {
@@ -51,10 +64,9 @@ namespace test.jpos
             }
         }
 
-        public JCoinDispenser(string Name)
+        public JCoinDispenser(DeviceInfo info) : base(info)
         {
             jobj = new internals.CoinDispenser();
-            name = Name;
         }
 
 
@@ -88,7 +100,7 @@ namespace test.jpos
         [DebuggerNonUserCode]
         public override void Open()
         {
-            jobj.open(name);
+            jobj.open(deviceInfo.Name);
         }
 
         [DebuggerNonUserCode]
@@ -109,6 +121,38 @@ namespace test.jpos
             jobj.release();
         }
 
+        [DebuggerNonUserCode]
+        public override void CheckHealth(HealthCheckLevel level)
+        {
+            jobj.checkHealth((int)level);
+        }
+
+        public override PowerNotification PowerNotify
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return (PowerNotification)jobj.getPowerNotify();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setPowerNotify((int)value);
+            }
+        }
+
+        public override event StatusUpdateEventHandler StatusUpdateEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+
+        }
 
 
     }

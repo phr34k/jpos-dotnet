@@ -2,7 +2,7 @@
 
 public class JThrowableException : Exception
 {
-    public JThrowable Throwable { get; init; }
+    public JThrowable? Throwable { get; init; }
 
     public JThrowableException() { }
 

@@ -14,14 +14,37 @@ namespace test.jpos
     internal class JPOSPrinter2 : PosPrinter, IJPosObject
     {
         internals.POSPrinter jobj;
-        string name = null;
         public JObject JObject => jobj;
 
+        public override event OutputCompleteEventHandler OutputCompleteEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+        }
 
-        public JPOSPrinter2(string Name)
+        public override bool FreezeEvents
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return jobj.getFreezeEvents();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setFreezeEvents(value);
+            }
+        }
+
+        public JPOSPrinter2(DeviceInfo info) : base(info)
         {
             jobj = new internals.POSPrinter();
-            name = Name;
         }
 
         public override PowerState PowerState
@@ -159,7 +182,23 @@ namespace test.jpos
                 return jobj.getPhysicalDeviceName();
             }
         }
+        
+        
+        public override PrinterCartridgeNotify CartridgeNotify
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return (PrinterCartridgeNotify)jobj.getCartridgeNotify();
+            }
 
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setCartridgeNotify( (int)value );
+            }
+        }
+        
 
         public override string DeviceDescription
         {
@@ -233,6 +272,26 @@ namespace test.jpos
             }
         }
 
+        public override PowerNotification PowerNotify
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return (PowerNotification)jobj.getPowerNotify();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setPowerNotify((int)value);
+            }
+        }
+
+        [DebuggerNonUserCode]
+        public override void CheckHealth(HealthCheckLevel level)
+        {
+            jobj.checkHealth((int)level);
+        }
+
         [DebuggerNonUserCode]
         public override void PrintNormal(PrinterStation station, string name)
         {
@@ -267,7 +326,7 @@ namespace test.jpos
         [DebuggerNonUserCode]
         public override void Open()
         {
-            jobj.open(name);
+            jobj.open(deviceInfo.Name);
         }
 
         [DebuggerNonUserCode]
@@ -292,6 +351,46 @@ namespace test.jpos
         {
             jobj.clearOutput();
         }
+
+        public override event DataEventHandler DataEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+        }
+
+        public override event DeviceErrorEventHandler ErrorEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+
+        }
+
+        public override event StatusUpdateEventHandler StatusUpdateEvent
+        {
+            add
+            {
+                //TODO:
+            }
+            remove
+            {
+                //TODO:
+            }
+
+        }
+
+
     }
 
 
