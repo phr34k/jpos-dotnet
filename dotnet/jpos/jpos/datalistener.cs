@@ -140,7 +140,7 @@ namespace test.jpos
             void NativeStatusUpdateListener.Native.Scanner_DataEvent(NativeStatusUpdateListener self, internals.jpos.events.StatusUpdateEvent p0)
             {
                 //get the origional NativeDataListener object
-                NativeStatusUpdateListener registered;
+                NativeStatusUpdateListener? registered;
                 if (NativeStatusUpdateListener.TryGet(self.Handle, out registered) == false)
                 {
                     return;

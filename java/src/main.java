@@ -537,7 +537,7 @@ if( filteredNatives.size() > 0 )
             
         
         constructorBody.add(String.format("\t_class = JNI.FindClass(\"%s\");", fullyQualifiedClassNameOrig.replace('.', '/')));
-        constructorBody.add(String.format("\tif( _class == IntPtr.Zero ) throw new InvalidStateException();"));          
+        constructorBody.add(String.format("\tif( _class == null ) throw new InvalidOperationException();"));          
         System.out.println(String.format("\tprotected static JClass _class;", fullyQualifiedClassNameOrig.replace('.', '/')));  
 
         for(int k = 0 ; k < filteredConstructors.size(); ++k )
@@ -560,27 +560,21 @@ if( filteredNatives.size() > 0 )
 
         for(int k = 0 ; k < filteredConstructors.size(); ++k )
         {  
-		  constructorBody.add(String.format("\tJMethodID _m%s%d = _class.GetMethodID(\"%s\", _%s%d);", "init", k, "<init>", "init", k));
-		  constructorBody.add(String.format("\tif( m%s%d.Handle == IntPtr.Zero ) throw new InvalidStateException();", "init", k, "<init>", "init", k));  
+		  constructorBody.add(String.format("\t_m%s%d = _class.GetMethodID(\"%s\", _%s%d);", "init", k, "<init>", "init", k));
+		  constructorBody.add(String.format("\tif( _m%s%d.Handle == IntPtr.Zero ) throw new InvalidOperationException();", "init", k, "<init>", "init", k));  
           System.out.println(String.format("\tprotected static JMethodID _m%s%d;", "init", k, "<init>", "init", k));  
         }     
 
         for(int k = 0 ; k < filteredMethods.size(); ++k )
         { 
-		  constructorBody.add(String.format("\tJMethodID _m%s%d = _class.GetMethodID(\"%s\", _%s%d);", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));   
-		  constructorBody.add(String.format("\tif( m%s%d.Handle == IntPtr.Zero ) throw new InvalidStateException();", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));  
+		  constructorBody.add(String.format("\t_m%s%d = _class.GetMethodID(\"%s\", _%s%d);", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));   
+		  constructorBody.add(String.format("\tif( _m%s%d.Handle == IntPtr.Zero ) throw new InvalidOperationException();", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));  
           System.out.println(String.format("\tprotected static JMethodID _m%s%d;", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));  
         }                  
 
         System.out.println("");      
 
-        System.out.println("\t[DebuggerNonUserCode]");                  
-        System.out.println(String.format("\tstatic %s()", className));                          
-        System.out.println("\t{");              
-        for(int k = 0 ; k < constructorBody.size(); ++k ) {
-          System.out.println(String.format("  %s", constructorBody.get(k)));                  
-        }
-        System.out.println("\t}");                
+             
 
         System.out.println("\t[DebuggerNonUserCode]");                  
         System.out.println("\tpublic static bool IsInstanceOf(JObject except)");                          
@@ -748,9 +742,9 @@ for(int k = 0 ; k < filteredNatives.size(); ++k )
 
 
         System.out.println(String.format("\tpublic static List<WeakReference<%s>> mapping = new List<WeakReference<%s>>();", className, className));      
-        System.out.println(String.format("\tpublic static bool TryGet(IntPtr refz, out %s l)", className));      
+        System.out.println(String.format("\tpublic static bool TryGet(IntPtr refz, out %s? l)", className));      
         System.out.println("\t{");      
-        System.out.println(String.format("\t    %s output = null;", className));      
+        System.out.println(String.format("\t    %s? output = null;", className));      
         System.out.println("\t    var s = new JObject(refz, JNI.ReferenceType.Local);");      
         System.out.println("\t    for (int i = 0; i < mapping.Count; i++)");      
         System.out.println("\t    {");      
@@ -772,29 +766,29 @@ for(int k = 0 ; k < filteredNatives.size(); ++k )
 
         System.out.println(String.format("\tpublic static void Unregister(%s c)", className));
         System.out.println("\t{");
-        System.out.println(String.format("\t    %s output = null;", className));
+        System.out.println(String.format("\t    %s? output = null;", className));
         System.out.println("\t    mapping.RemoveAll((m) => m.TryGetTarget(out output) && object.ReferenceEquals(output, c));");
         System.out.println("\t}");
 
         
-          System.out.println(String.format("\tstatic %s()", className));      
-          System.out.println("\t{");      
-          System.out.println("\t    ");      
+          //System.out.println(String.format("\tstatic %s()", className));      
+          //System.out.println("\t{");      
+          //System.out.println("\t    ");      
 
           for(int k = 0 ; k < filteredNatives.size(); ++k )
           {             
               //System.out.println(String.format("\tprotected static JMethodID _m%s%d = _class.GetMethodID(\"%s\", );", filteredNatives.get(k).getName(), k, filteredNatives.get(k).getName(), filteredNatives.get(k).getName(), k));  
-              System.out.println(String.format("\t        %sInternal evt = %s;", filteredNatives.get(k).getName(), filteredNatives.get(k).getName()));      
+              constructorBody.add(String.format("\t        %sInternal evt = %s;", filteredNatives.get(k).getName(), filteredNatives.get(k).getName()));      
           }
 
-          System.out.println("\t    JNI.RegisterNatives(_class, new JNINativeMethod[] {");      
+          constructorBody.add("\t    JNI.RegisterNatives(_class, new JNINativeMethod[] {");      
           for(int k = 0 ; k < filteredNatives.size(); ++k )
           {             
               //System.out.println(String.format("\tprotected static JMethodID _m%s%d = _class.GetMethodID(\"%s\", );", filteredNatives.get(k).getName(), k, filteredNatives.get(k).getName(), filteredNatives.get(k).getName(), k));  
-              System.out.println(String.format("\t        new JNINativeMethod() { name = \"%s\", signature = _%s%d, fnPtr = Marshal.GetFunctionPointerForDelegate(evt) },", filteredNatives.get(k).getName(), filteredNatives.get(k).getName(), k));      
+              constructorBody.add(String.format("\t        new JNINativeMethod() { name = \"%s\", signature = _%s%d, fnPtr = Marshal.GetFunctionPointerForDelegate(evt) },", filteredNatives.get(k).getName(), filteredNatives.get(k).getName(), k));      
           }
-          System.out.println("\t    });");      
-          System.out.println("\t}");      
+          constructorBody.add("\t    });");      
+          //System.out.println("\t}");      
         }
 
 
@@ -984,6 +978,14 @@ for(int k = 0 ; k < filteredNatives.size(); ++k )
           System.out.println("\t}");  
           System.out.println(""); 
         }
+
+        System.out.println("\t[DebuggerNonUserCode]");                  
+        System.out.println(String.format("\tstatic %s()", className));                          
+        System.out.println("\t{");              
+        for(int k = 0 ; k < constructorBody.size(); ++k ) {
+          System.out.println(String.format("  %s", constructorBody.get(k)));                  
+        }
+        System.out.println("\t}");   
 
         System.out.println(String.format("}") );        
         if( nameSpace.length() > 0 )
