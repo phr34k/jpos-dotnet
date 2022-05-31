@@ -532,11 +532,13 @@ if( filteredNatives.size() > 0 )
 
                        
 
-
+        List<String> constructorBody = new ArrayList<String>();
         //public void Scanner_DataEvent(NativeDataListener p0,jpos.events.DataEvent p1)       
             
         
-        System.out.println(String.format("\tprotected static JClass _class = JNI.FindClass(\"%s\");", fullyQualifiedClassNameOrig.replace('.', '/')));  
+        constructorBody.add(String.format("\t_class = JNI.FindClass(\"%s\");", fullyQualifiedClassNameOrig.replace('.', '/')));
+        constructorBody.add(String.format("\tif( _class == IntPtr.Zero ) throw new InvalidStateException();"));          
+        System.out.println(String.format("\tprotected static JClass _class;", fullyQualifiedClassNameOrig.replace('.', '/')));  
 
         for(int k = 0 ; k < filteredConstructors.size(); ++k )
         {  
@@ -558,16 +560,27 @@ if( filteredNatives.size() > 0 )
 
         for(int k = 0 ; k < filteredConstructors.size(); ++k )
         {  
-
-          System.out.println(String.format("\tprotected static JMethodID _m%s%d = _class.GetMethodID(\"%s\", _%s%d);", "init", k, "<init>", "init", k));  
+		  constructorBody.add(String.format("\tJMethodID _m%s%d = _class.GetMethodID(\"%s\", _%s%d);", "init", k, "<init>", "init", k));
+		  constructorBody.add(String.format("\tif( m%s%d.Handle == IntPtr.Zero ) throw new InvalidStateException();", "init", k, "<init>", "init", k));  
+          System.out.println(String.format("\tprotected static JMethodID _m%s%d;", "init", k, "<init>", "init", k));  
         }     
 
         for(int k = 0 ; k < filteredMethods.size(); ++k )
-        {  
-          System.out.println(String.format("\tprotected static JMethodID _m%s%d = _class.GetMethodID(\"%s\", _%s%d);", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));  
+        { 
+		  constructorBody.add(String.format("\tJMethodID _m%s%d = _class.GetMethodID(\"%s\", _%s%d);", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));   
+		  constructorBody.add(String.format("\tif( m%s%d.Handle == IntPtr.Zero ) throw new InvalidStateException();", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));  
+          System.out.println(String.format("\tprotected static JMethodID _m%s%d;", filteredMethods.get(k).getName(), k, filteredMethods.get(k).getName(), filteredMethods.get(k).getName(), k));  
         }                  
 
         System.out.println("");      
+
+        System.out.println("\t[DebuggerNonUserCode]");                  
+        System.out.println(String.format("\tstatic %s()", className));                          
+        System.out.println("\t{");              
+        for(int k = 0 ; k < constructorBody.size(); ++k ) {
+          System.out.println(String.format("  %s", constructorBody.get(k)));                  
+        }
+        System.out.println("\t}");                
 
         System.out.println("\t[DebuggerNonUserCode]");                  
         System.out.println("\tpublic static bool IsInstanceOf(JObject except)");                          

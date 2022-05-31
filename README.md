@@ -23,7 +23,7 @@ dotnet run --project ./dotnet/test/example.csproj jpos.xml
 ```
 wget https://dot.net/v1/dotnet-install.sh
 ./dotnet-install.sh -c 6.0
-sudo apt install openjdk-16-jdk-headless
+sudo apt install openjdk-16-jdk
 ```
 
 ## Usage
