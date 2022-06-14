@@ -141,18 +141,75 @@ namespace test.jpos
             jobj.checkHealth((int)level);
         }
 
+
+        [DebuggerNonUserCode]
+        public override void addStatusListener(StatusListener listener)
+        {
+            jobj.addStatusUpdateListener(new internals.events.StatusUpdateListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Register(this);
+        }
+
+        [DebuggerNonUserCode]
+        public override void removeStatusListener(StatusListener listener)
+        {
+            jobj.removeStatusUpdateListener(new internals.events.StatusUpdateListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Unregister(this);
+        }
+
+        private test.jpos.StatusListener? _StatusListener;
+        private event StatusUpdateEventHandler? _StatusUpdateEvent;
+        private void StatusListener_OnDataReceived(object source, test.jpos.StatusListener listener, test.jpos.StatusUpdateEventArgs evt)
+        {
+            _StatusUpdateEvent?.Invoke(this, evt);
+        }
         public override event StatusUpdateEventHandler StatusUpdateEvent
         {
             add
             {
-                //TODO:
+                lock (jobj)
+                {
+                    if (_StatusListener == null)
+                    {
+                        _StatusListener = new test.jpos.StatusListener(null);
+                        _StatusListener.OnStatusUpdate += StatusListener_OnDataReceived;
+                    }
+
+                    if (_StatusUpdateEvent == null)
+                    {
+                        if (_StatusListener != null)
+                        {
+                            addStatusListener(_StatusListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't attach StatusUpdateEvent handler");
+                        }
+                    }
+
+                    _StatusUpdateEvent += value;
+                }
             }
             remove
             {
-                //TODO:
-            }
+                lock (jobj)
+                {
+                    _StatusUpdateEvent -= value;
 
+                    if (_StatusUpdateEvent == null)
+                    {
+                        if (_StatusListener != null)
+                        {
+                            removeStatusListener(_StatusListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't deattach StatusUpdateEvent handler");
+                        }
+                    }
+                }
+            }
         }
+
 
     }
 

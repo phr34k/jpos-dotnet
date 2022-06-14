@@ -16,18 +16,6 @@ namespace test.jpos
         internals.POSPrinter jobj;
         public JObject JObject => jobj;
 
-        public override event OutputCompleteEventHandler OutputCompleteEvent
-        {
-            add
-            {
-                //TODO:
-            }
-            remove
-            {
-                //TODO:
-            }
-        }
-
         public override bool FreezeEvents
         {
             [DebuggerNonUserCode]
@@ -352,43 +340,218 @@ namespace test.jpos
             jobj.clearOutput();
         }
 
-        public override event DataEventHandler DataEvent
+
+
+        [DebuggerNonUserCode]
+        public override void addErrorListener(ErrorListener listener)
         {
-            add
-            {
-                //TODO:
-            }
-            remove
-            {
-                //TODO:
-            }
+            jobj.addErrorListener(new internals.events.ErrorListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Register(this);
         }
 
+        [DebuggerNonUserCode]
+        public override void removeErrorListener(ErrorListener listener)
+        {
+            jobj.removeErrorListener(new internals.events.ErrorListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Unregister(this);
+        }
+
+        private test.jpos.ErrorListener? _ErrorListener;
+        private event DeviceErrorEventHandler? _ErrorEvent;
+        private void Listener_OnErrorReceived(object source, test.jpos.ErrorListener listener, test.jpos.DeviceErrorEventArgs evt)
+        {
+            _ErrorEvent?.Invoke(this, evt);
+        }
         public override event DeviceErrorEventHandler ErrorEvent
         {
             add
             {
-                //TODO:
+                lock (jobj)
+                {
+                    if (_ErrorListener == null)
+                    {
+                        _ErrorListener = new test.jpos.ErrorListener(null);
+                        _ErrorListener.OnError += Listener_OnErrorReceived;
+                    }
+
+                    if (_ErrorEvent == null)
+                    {
+                        if (_ErrorListener != null)
+                        {
+                            addErrorListener(_ErrorListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't attach DataEvent handler");
+                        }
+                    }
+
+                    _ErrorEvent += value;
+                }
             }
             remove
             {
-                //TODO:
-            }
+                lock (jobj)
+                {
+                    _ErrorEvent -= value;
 
+                    if (_ErrorEvent == null)
+                    {
+                        if (_ErrorListener != null)
+                        {
+                            removeErrorListener(_ErrorListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't deattach DataEvent handler");
+                        }
+                    }
+                }
+            }
         }
 
+
+
+
+
+        [DebuggerNonUserCode]
+        public override void addOutputCompleteListener(OutputCompleteListener listener)
+        {
+            jobj.addOutputCompleteListener(new internals.events.OutputCompleteListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Register(this);
+        }
+
+        [DebuggerNonUserCode]
+        public override void removeOutputCompleteListener(OutputCompleteListener listener)
+        {
+            jobj.removeOutputCompleteListener(new internals.events.OutputCompleteListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Unregister(this);
+        }
+
+        private test.jpos.OutputCompleteListener? _OutputCompleteListener;
+        private event OutputCompleteEventHandler? _OutputCompleteEvent;
+        private void Listener_OnOutputCompleteReceived(object source, test.jpos.OutputCompleteListener listener, test.jpos.OutputCompleteEventArgs evt)
+        {
+            _OutputCompleteEvent?.Invoke(this, evt);
+        }
+        public override event OutputCompleteEventHandler OutputCompleteEvent
+        {
+            add
+            {
+                lock (jobj)
+                {
+                    if (_OutputCompleteListener == null)
+                    {
+                        _OutputCompleteListener = new test.jpos.OutputCompleteListener(null);
+                        _OutputCompleteListener.OnOutputComplete += Listener_OnOutputCompleteReceived;
+                    }
+
+                    if (_OutputCompleteEvent == null)
+                    {
+                        if (_OutputCompleteListener != null)
+                        {
+                            addOutputCompleteListener(_OutputCompleteListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't attach OutputCompleteEvent handler");
+                        }
+                    }
+
+                    _OutputCompleteEvent += value;
+                }
+            }
+            remove
+            {
+                lock (jobj)
+                {
+                    _OutputCompleteEvent -= value;
+
+                    if (_OutputCompleteEvent == null)
+                    {
+                        if (_OutputCompleteListener != null)
+                        {
+                            removeOutputCompleteListener(_OutputCompleteListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't deattach OutputCompleteEvent handler");
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        [DebuggerNonUserCode]
+        public override void addStatusListener(StatusListener listener)
+        {
+            jobj.addStatusUpdateListener(new internals.events.StatusUpdateListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Register(this);
+        }
+
+        [DebuggerNonUserCode]
+        public override void removeStatusListener(StatusListener listener)
+        {
+            jobj.removeStatusUpdateListener(new internals.events.StatusUpdateListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Unregister(this);
+        }
+
+        private test.jpos.StatusListener? _StatusListener;
+        private event StatusUpdateEventHandler? _StatusUpdateEvent;
+        private void StatusListener_OnDataReceived(object source, test.jpos.StatusListener listener, test.jpos.StatusUpdateEventArgs evt)
+        {
+            _StatusUpdateEvent?.Invoke(this, evt);
+        }
         public override event StatusUpdateEventHandler StatusUpdateEvent
         {
             add
             {
-                //TODO:
+                lock (jobj)
+                {
+                    if (_StatusListener == null)
+                    {
+                        _StatusListener = new test.jpos.StatusListener(null);
+                        _StatusListener.OnStatusUpdate += StatusListener_OnDataReceived;
+                    }
+
+                    if (_StatusUpdateEvent == null)
+                    {
+                        if (_StatusListener != null)
+                        {
+                            addStatusListener(_StatusListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't attach StatusUpdateEvent handler");
+                        }
+                    }
+
+                    _StatusUpdateEvent += value;
+                }
             }
             remove
             {
-                //TODO:
-            }
+                lock (jobj)
+                {
+                    _StatusUpdateEvent -= value;
 
+                    if (_StatusUpdateEvent == null)
+                    {
+                        if (_StatusListener != null)
+                        {
+                            removeStatusListener(_StatusListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't deattach StatusUpdateEvent handler");
+                        }
+                    }
+                }
+            }
         }
+
 
 
     }

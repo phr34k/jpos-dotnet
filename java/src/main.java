@@ -330,13 +330,13 @@ public class Main implements jpos.events.DataListener, jpos.events.StatusUpdateL
   {
       ArrayList<java.lang.Class> list = new ArrayList<java.lang.Class>();
       list.add(jpos.events.JposEvent.class);    
+      list.add(jpos.events.ErrorEvent.class);
       list.add(jpos.events.DataEvent.class);
       list.add(jpos.events.StatusUpdateEvent.class);
       list.add(jpos.events.DirectIOEvent.class);
+      list.add(jpos.events.OutputCompleteEvent.class);
       list.add(java.util.EventObject.class);
       
-
-
       list.add(jpos.BaseControl.class);
       list.add(jpos.BaseJposControl.class);      
       list.add(jpos.Scanner.class);
@@ -345,6 +345,8 @@ public class Main implements jpos.events.DataListener, jpos.events.StatusUpdateL
       list.add(jpos.PINPad.class);     
       list.add(jpos.POSPrinter.class);    
       
+      list.add(jpos.events.ErrorListener.class);
+      list.add(jpos.events.OutputCompleteListener.class);
       list.add(jpos.events.StatusUpdateListener.class);
       list.add(jpos.events.DirectIOListener.class);
       list.add(jpos.events.DataListener.class);    
@@ -352,14 +354,9 @@ public class Main implements jpos.events.DataListener, jpos.events.StatusUpdateL
       list.add(jpos.JposException.class);  
 
       list.add(NativeDataListener.class);
-      list.add(NativeStatusUpdateListener.class);
-      
-
-      
-
-      
-      
-
+      list.add(NativeStatusUpdateListener.class);        
+      list.add(NativeErrorListener.class);   
+      list.add(NativeOutputCompleteListener.class);   
       
       System.out.println("using System;");                
       System.out.println("using System.Diagnostics;");                

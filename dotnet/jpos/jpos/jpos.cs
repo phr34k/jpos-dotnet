@@ -62,129 +62,6 @@ namespace test.jpos
         }
     }
 
-    public class OutputCompleteEventArgs : PosEventArgs
-    {
-        private int m_OutputId;
-        public int OutputId => m_OutputId;
-        public OutputCompleteEventArgs(int outputId)
-        {
-            m_OutputId = outputId;
-        }
-
-        public override string ToString()
-        {
-            return base.ToString() + ", OutputId: " + m_OutputId.ToString(System.Globalization.CultureInfo.InvariantCulture);
-        }
-    }
-
-    [Serializable]
-    public class StatusUpdateEventArgs : PosEventArgs
-    {
-        private int m_Status;
-        public int Status => m_Status;
-
-        public StatusUpdateEventArgs(int status)
-        {
-            m_Status = status;
-        }
-
-        public override string ToString()
-        {
-            return base.ToString() + ", Status: " + m_Status.ToString(System.Globalization.CultureInfo.InvariantCulture);
-        }
-    }
-
-
-    public class DeviceErrorEventArgs : PosEventArgs
-    {
-        //private PosResourceManager resourceManager;
-
-        private ErrorCode errorcode;
-
-        private int errorcodeextended;
-
-        private ErrorLocus errorlocus;
-
-        internal ErrorResponse errorresponse;
-
-        public ErrorCode ErrorCode => errorcode;
-
-        public int ErrorCodeExtended => errorcodeextended;
-
-        public ErrorLocus ErrorLocus => errorlocus;
-
-        public ErrorResponse ErrorResponse
-        {
-            get
-            {
-                return errorresponse;
-            }
-            set
-            {
-                ValidateErrorResponse(value);
-                errorresponse = value;
-            }
-        }
-
-        //
-        // Summary:
-        //     Creates an instance of the DeviceErrorEventArgs class with the specified data.
-        //
-        // Parameters:
-        //   errorCodeExtended:
-        //     The device extended error code. This value is device-specific.
-        //
-        //   errorLocus:
-        //     The location of the error.
-        //
-        //   errorCode:
-        //     The device error code.
-        //
-        //   errorResponse:
-        //     The error response.
-        public DeviceErrorEventArgs(ErrorCode errorCode, int errorCodeExtended, ErrorLocus errorLocus, ErrorResponse errorResponse)
-        {
-            if (errorCode < ErrorCode.Closed || errorCode > ErrorCode.Extended)
-            {
-                ThrowPosException("IDS_ERR_INVALID_ERROR_CODE", ErrorCode.Illegal);
-            }
-
-            if (errorLocus != ErrorLocus.Input && errorLocus != ErrorLocus.InputData && errorLocus != ErrorLocus.Output)
-            {
-                ThrowPosException("IDS_ERR_INVALID_ERROR_LOCUS", ErrorCode.Illegal);
-            }
-
-            ValidateErrorResponse(errorResponse);
-            errorcode = errorCode;
-            errorcodeextended = errorCodeExtended;
-            errorlocus = errorLocus;
-            errorresponse = errorResponse;
-        }
-
-        private void ThrowPosException(string errorId, ErrorCode errorCode)
-        {
-            /*
-            if (resourceManager == null)
-            {
-                resourceManager = new PosResourceManager(Assembly.GetExecutingAssembly());
-            }
-            */
-            throw new PosControlException(errorId.ToString(), errorCode);
-        }
-
-        private void ValidateErrorResponse(ErrorResponse response)
-        {
-            if (response != ErrorResponse.Clear && response != ErrorResponse.ContinueInput && response != ErrorResponse.Retry)
-            {
-                ThrowPosException("IDS_ERR_INVALID_ERROR_RESPONSE", ErrorCode.Illegal);
-            }
-        }
-
-        public override string ToString()
-        {
-            return base.ToString() + ", ErrorCode: " + errorcode.ToString() + ", ErrorCodeExtended: " + errorcodeextended.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", ErrorLocus: " + errorlocus.ToString() + ", ErrorResponse: " + errorresponse;
-        }
-    }
 
     public class DeviceChangedEventArgs : EventArgs
     {
@@ -285,18 +162,15 @@ namespace test.jpos
     {
         internal static jpos.JPos? d = null;
 
-        public static PosExplorer Instance 
+        public static PosExplorer Instance(string dir, List<String> classPaths) 
         {
-            get
+            if (d == null)
             {
-                if (d == null)
-                {
-                    d = new JPos();
-                    d.Setup();
-                }
-                 
-                return new JExplorer("./jpos.xml"); 
-            } 
+                d = new JPos();
+                d.Setup(dir, classPaths);
+            }
+             
+            return new JExplorer(System.IO.Path.GetFullPath(System.IO.Path.Join(dir, "./jpos.xml"))); 
         }
 
         public abstract event DeviceChangedEventHandler DeviceAddedEvent;
@@ -315,7 +189,7 @@ namespace test.jpos
     {
 
 
-        public void Setup()
+        public void Setup(string directory, List<String> classPaths)
         {
             try
             {
@@ -331,24 +205,22 @@ namespace test.jpos
                 }
                 */
 
-                Console.WriteLine(Environment.CurrentDirectory);
+                Console.WriteLine(directory);
 
 
 
-                List<String> classPaths = new List<string>();
-                //classPaths.Add(@"C:\Program Files\Honeywell\UPOS Suite\JavaPOS Suite\jpos113.jar");
-                //classPaths.Add(@"C:\Program Files\Honeywell\UPOS Suite\JavaPOS Suite\jpos113-controls.jar");
-                //classPaths.Add(@"C:\Program Files\Honeywell\UPOS Suite\JavaPOS Suite\xerces.jar");
+                if( classPaths.Count > 0)
+                {
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/lib/jpos113.jar"));
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/lib/jpos113-controls.jar"));
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/lib/xerces.jar"));
 
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/lib/jpos113.jar"));
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/lib/jpos113-controls.jar"));
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/lib/xerces.jar"));
-
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/POSdeviceSimulator/bin/"));
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/POSdeviceSimulator/lib/commons-lang-2.6.jar"));
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/POSdeviceSimulator/lib/commons-logging-1.1.1.jar"));
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/POSdeviceSimulator/lib/jdom-2.0.1.jar"));
-                classPaths.Add(System.IO.Path.Combine(Environment.CurrentDirectory, @"java/bin/"));
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/POSdeviceSimulator/bin/"));
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/POSdeviceSimulator/lib/commons-lang-2.6.jar"));
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/POSdeviceSimulator/lib/commons-logging-1.1.1.jar"));
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/POSdeviceSimulator/lib/jdom-2.0.1.jar"));
+	                classPaths.Add(System.IO.Path.Combine(directory, @"java/bin/"));
+                }
 
                 Console.WriteLine(string.Join(System.IO.Path.PathSeparator, classPaths));
 
@@ -357,6 +229,7 @@ namespace test.jpos
                 JNI.Initialize(new JavaVMInitArgs(JNI.Version.V1_8,
                     new JavaVMOption[] {
                     new JavaVMOption(@"-Djava.class.path=" + String.Join(System.IO.Path.PathSeparator, classPaths)),
+                    new JavaVMOption(@"-Dawt.useSystemAAFontSettings=on"),
                     new JavaVMOption(@"-Djava.library.path="),
                         //new JavaVMOption(@"-verbose:jni")
                     },

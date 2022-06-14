@@ -36,9 +36,9 @@ namespace test
         {
 
             var d = new jpos.JPos();
-            d.Setup();
+            d.Setup(System.IO.Path.GetFullPath(args[0]));
 
-            explorer = new jpos.JExplorer(args[0]);
+            explorer = new jpos.JExplorer(System.IO.Path.GetFullPath(args[1]));
             listener = new jpos.DataListener(explorer);
             listener2 = new jpos.StatusListener(explorer);
 
@@ -60,7 +60,7 @@ namespace test
             if( printer != null ) printer.Claim(0);
             if( coins != null ) coins.Claim(0);
             if( scanner != null ) scanner.DeviceEnabled = true;
-            if( printer != null ) printer.DeviceEnabled = true;
+            //if( printer != null ) printer.DeviceEnabled = true;
             //coins.DeviceEnabled = true;
             Console.ReadLine();
             if( scanner != null ) scanner.Release();

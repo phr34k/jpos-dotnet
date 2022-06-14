@@ -31,6 +31,10 @@ namespace test.jpos
 
         public abstract PowerNotification PowerNotify { get; set; }
 
+        //jpos compatabillity
+        public abstract void addStatusListener(StatusListener listener);
+        public abstract void removeStatusListener(StatusListener listener);
+        //pos4net compatabillity
         public abstract event StatusUpdateEventHandler StatusUpdateEvent;
 
 
@@ -87,9 +91,6 @@ namespace test.jpos
 
         public abstract void addDataListener(DataListener listener);
         public abstract void removeDataListener(DataListener listener);
-        public abstract void addStatusListener(StatusListener listener);
-        public abstract void removeStatusListener(StatusListener listener);
-
         public abstract event DataEventHandler DataEvent;
         public abstract event DeviceErrorEventHandler ErrorEvent;
     }
@@ -445,7 +446,12 @@ namespace test.jpos
         public abstract void ClearOutput();
 
 
-        public abstract event DataEventHandler DataEvent;
+        public abstract void addErrorListener(ErrorListener listener);
+        public abstract void removeErrorListener(ErrorListener listener);
+        public abstract void addOutputCompleteListener(OutputCompleteListener listener);
+        public abstract void removeOutputCompleteListener(OutputCompleteListener listener);
+
+        //public abstract event DataEventHandler DataEvent;
         public abstract event DeviceErrorEventHandler ErrorEvent;
         public abstract event OutputCompleteEventHandler OutputCompleteEvent;
     }
@@ -481,11 +487,13 @@ namespace test.jpos
 
         public abstract void OpenDrawer();
         public abstract void WaitForDrawerClose(int beepTimeout, int beepFrequency, int beepDuration, int beepDelay);
-
-        public abstract event DataEventHandler DataEvent;
-        public abstract event DeviceErrorEventHandler ErrorEvent;
     }
 
+
+    public abstract class CoinDispenser : PosCommon
+    {
+        public CoinDispenser(DeviceInfo info) : base(info) { }
+    }
 
     public abstract class RemoteOrderDisplay : PosCommon
     {

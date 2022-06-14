@@ -101,6 +101,149 @@ class JposEvent : java.util.EventObject {
 }
 
 namespace jpos.events {
+class ErrorEvent : jpos.events.JposEvent {
+	protected static JClass _class;
+	protected static string _init0 = "(Ljava/lang/Object;IIII)V";
+	protected static string _getErrorLocus0 = "()I";
+	protected static string _getErrorResponse1 = "()I";
+	protected static string _setErrorResponse2 = "(I)V";
+	protected static string _getErrorCode3 = "()I";
+	protected static string _getErrorCodeExtended4 = "()I";
+	protected static JMethodID _minit0;
+	protected static JMethodID _mgetErrorLocus0;
+	protected static JMethodID _mgetErrorResponse1;
+	protected static JMethodID _msetErrorResponse2;
+	protected static JMethodID _mgetErrorCode3;
+	protected static JMethodID _mgetErrorCodeExtended4;
+
+	[DebuggerNonUserCode]
+	public static bool IsInstanceOf(JObject except)
+	{
+	  return JNI.IsInstanceOf(except, _class);
+	}
+	[DebuggerNonUserCode]
+	private static Exception FromThrowable(JThrowable except)
+	{
+	  if (jpos.JposException.IsInstanceOf(except))
+	  {
+	    jpos.JposException d = new jpos.JposException(new JClone<JObject>() { Value = except });
+	    d.printStackTrace();
+	    int errorCode = d.getErrorCode();
+	    int errorCodeExtended = d.getErrorCodeExtended();
+	    return new PosControlException(except.ToString(), (ErrorCode)errorCode, errorCodeExtended);
+	  }
+	  else
+	  {
+	    except.printStackTrace();
+	    return new JavaException(except.ToString());
+	  }
+	}
+
+	[DebuggerNonUserCode]
+	public ErrorEvent(JClone<JObject> obj) : base(obj) {} 
+
+	public ErrorEvent(JObject p0,int p1,int p2,int p3,int p4) : base(initialize(p0,p1,p2,p3,p4)) {}
+	[DebuggerNonUserCode]
+	protected static JClone<JObject> initialize(JObject p0,int p1,int p2,int p3,int p4) 
+	{
+	    JObject ret = JNI.NewObject<JObject>(_class, _minit0, new JValue(p0),new JValue(p1),new JValue(p2),new JValue(p3),new JValue(p4));
+	    bool exception = JNI.ExceptionCheck();
+	    if (ret.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return new JClone<JObject>() { Value = ret } ;
+	}
+
+
+
+	[DebuggerNonUserCode]
+	public int getErrorLocus() 
+	{
+	    int ret = JNI.CallMethod<int>(this, _mgetErrorLocus0);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
+	}
+
+	[DebuggerNonUserCode]
+	public int getErrorResponse() 
+	{
+	    int ret = JNI.CallMethod<int>(this, _mgetErrorResponse1);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
+	}
+
+	[DebuggerNonUserCode]
+	public void setErrorResponse(int p0) 
+	{
+	    JNI.CallVoidMethod(this, _msetErrorResponse2, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
+	public int getErrorCode() 
+	{
+	    int ret = JNI.CallMethod<int>(this, _mgetErrorCode3);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
+	}
+
+	[DebuggerNonUserCode]
+	public int getErrorCodeExtended() 
+	{
+	    int ret = JNI.CallMethod<int>(this, _mgetErrorCodeExtended4);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
+	}
+
+	[DebuggerNonUserCode]
+	static ErrorEvent()
+	{
+  	_class = JNI.FindClass("jpos/events/ErrorEvent");
+  	if( _class == null ) throw new InvalidOperationException();
+  	_minit0 = _class.GetMethodID("<init>", _init0);
+  	if( _minit0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetErrorLocus0 = _class.GetMethodID("getErrorLocus", _getErrorLocus0);
+  	if( _mgetErrorLocus0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetErrorResponse1 = _class.GetMethodID("getErrorResponse", _getErrorResponse1);
+  	if( _mgetErrorResponse1.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_msetErrorResponse2 = _class.GetMethodID("setErrorResponse", _setErrorResponse2);
+  	if( _msetErrorResponse2.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetErrorCode3 = _class.GetMethodID("getErrorCode", _getErrorCode3);
+  	if( _mgetErrorCode3.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetErrorCodeExtended4 = _class.GetMethodID("getErrorCodeExtended", _getErrorCodeExtended4);
+  	if( _mgetErrorCodeExtended4.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+	}
+}
+}
+
+namespace jpos.events {
 class DataEvent : jpos.events.JposEvent {
 	protected static JClass _class;
 	protected static string _init0 = "(Ljava/lang/Object;I)V";
@@ -395,6 +538,83 @@ class DirectIOEvent : jpos.events.JposEvent {
 }
 }
 
+namespace jpos.events {
+class OutputCompleteEvent : jpos.events.JposEvent {
+	protected static JClass _class;
+	protected static string _init0 = "(Ljava/lang/Object;I)V";
+	protected static string _getOutputID0 = "()I";
+	protected static JMethodID _minit0;
+	protected static JMethodID _mgetOutputID0;
+
+	[DebuggerNonUserCode]
+	public static bool IsInstanceOf(JObject except)
+	{
+	  return JNI.IsInstanceOf(except, _class);
+	}
+	[DebuggerNonUserCode]
+	private static Exception FromThrowable(JThrowable except)
+	{
+	  if (jpos.JposException.IsInstanceOf(except))
+	  {
+	    jpos.JposException d = new jpos.JposException(new JClone<JObject>() { Value = except });
+	    d.printStackTrace();
+	    int errorCode = d.getErrorCode();
+	    int errorCodeExtended = d.getErrorCodeExtended();
+	    return new PosControlException(except.ToString(), (ErrorCode)errorCode, errorCodeExtended);
+	  }
+	  else
+	  {
+	    except.printStackTrace();
+	    return new JavaException(except.ToString());
+	  }
+	}
+
+	[DebuggerNonUserCode]
+	public OutputCompleteEvent(JClone<JObject> obj) : base(obj) {} 
+
+	public OutputCompleteEvent(JObject p0,int p1) : base(initialize(p0,p1)) {}
+	[DebuggerNonUserCode]
+	protected static JClone<JObject> initialize(JObject p0,int p1) 
+	{
+	    JObject ret = JNI.NewObject<JObject>(_class, _minit0, new JValue(p0),new JValue(p1));
+	    bool exception = JNI.ExceptionCheck();
+	    if (ret.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return new JClone<JObject>() { Value = ret } ;
+	}
+
+
+
+	[DebuggerNonUserCode]
+	public int getOutputID() 
+	{
+	    int ret = JNI.CallMethod<int>(this, _mgetOutputID0);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
+	}
+
+	[DebuggerNonUserCode]
+	static OutputCompleteEvent()
+	{
+  	_class = JNI.FindClass("jpos/events/OutputCompleteEvent");
+  	if( _class == null ) throw new InvalidOperationException();
+  	_minit0 = _class.GetMethodID("<init>", _init0);
+  	if( _minit0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetOutputID0 = _class.GetMethodID("getOutputID", _getOutputID0);
+  	if( _mgetOutputID0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+	}
+}
+}
+
 namespace java.util {
 class EventObject : JObject {
 	protected static JClass _class;
@@ -479,17 +699,17 @@ class BaseControl : JObject {
 	protected static string _close1 = "()V";
 	protected static string _open2 = "(Ljava/lang/String;)V";
 	protected static string _release3 = "()V";
-	protected static string _getDeviceServiceVersion4 = "()I";
-	protected static string _getFreezeEvents5 = "()Z";
-	protected static string _setFreezeEvents6 = "(Z)V";
-	protected static string _getPhysicalDeviceDescription7 = "()Ljava/lang/String;";
-	protected static string _getPhysicalDeviceName8 = "()Ljava/lang/String;";
-	protected static string _checkHealth9 = "(I)V";
-	protected static string _directIO10 = "(I[ILjava/lang/Object;)V";
-	protected static string _getCheckHealthText11 = "()Ljava/lang/String;";
-	protected static string _getDeviceControlDescription12 = "()Ljava/lang/String;";
-	protected static string _getDeviceControlVersion13 = "()I";
-	protected static string _getDeviceServiceDescription14 = "()Ljava/lang/String;";
+	protected static string _setFreezeEvents4 = "(Z)V";
+	protected static string _getPhysicalDeviceDescription5 = "()Ljava/lang/String;";
+	protected static string _getPhysicalDeviceName6 = "()Ljava/lang/String;";
+	protected static string _checkHealth7 = "(I)V";
+	protected static string _directIO8 = "(I[ILjava/lang/Object;)V";
+	protected static string _getCheckHealthText9 = "()Ljava/lang/String;";
+	protected static string _getDeviceControlDescription10 = "()Ljava/lang/String;";
+	protected static string _getDeviceControlVersion11 = "()I";
+	protected static string _getDeviceServiceDescription12 = "()Ljava/lang/String;";
+	protected static string _getDeviceServiceVersion13 = "()I";
+	protected static string _getFreezeEvents14 = "()Z";
 	protected static string _claim15 = "(I)V";
 	protected static string _setDeviceEnabled16 = "(Z)V";
 	protected static string _getDeviceEnabled17 = "()Z";
@@ -498,17 +718,17 @@ class BaseControl : JObject {
 	protected static JMethodID _mclose1;
 	protected static JMethodID _mopen2;
 	protected static JMethodID _mrelease3;
-	protected static JMethodID _mgetDeviceServiceVersion4;
-	protected static JMethodID _mgetFreezeEvents5;
-	protected static JMethodID _msetFreezeEvents6;
-	protected static JMethodID _mgetPhysicalDeviceDescription7;
-	protected static JMethodID _mgetPhysicalDeviceName8;
-	protected static JMethodID _mcheckHealth9;
-	protected static JMethodID _mdirectIO10;
-	protected static JMethodID _mgetCheckHealthText11;
-	protected static JMethodID _mgetDeviceControlDescription12;
-	protected static JMethodID _mgetDeviceControlVersion13;
-	protected static JMethodID _mgetDeviceServiceDescription14;
+	protected static JMethodID _msetFreezeEvents4;
+	protected static JMethodID _mgetPhysicalDeviceDescription5;
+	protected static JMethodID _mgetPhysicalDeviceName6;
+	protected static JMethodID _mcheckHealth7;
+	protected static JMethodID _mdirectIO8;
+	protected static JMethodID _mgetCheckHealthText9;
+	protected static JMethodID _mgetDeviceControlDescription10;
+	protected static JMethodID _mgetDeviceControlVersion11;
+	protected static JMethodID _mgetDeviceServiceDescription12;
+	protected static JMethodID _mgetDeviceServiceVersion13;
+	protected static JMethodID _mgetFreezeEvents14;
 	protected static JMethodID _mclaim15;
 	protected static JMethodID _msetDeviceEnabled16;
 	protected static JMethodID _mgetDeviceEnabled17;
@@ -589,35 +809,9 @@ class BaseControl : JObject {
 	}
 
 	[DebuggerNonUserCode]
-	public int getDeviceServiceVersion() 
-	{
-	    int ret = JNI.CallMethod<int>(this, _mgetDeviceServiceVersion4);
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-
-	    return ret;
-	}
-
-	[DebuggerNonUserCode]
-	public bool getFreezeEvents() 
-	{
-	    bool ret = JNI.CallMethod<bool>(this, _mgetFreezeEvents5);
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-
-	    return ret;
-	}
-
-	[DebuggerNonUserCode]
 	public void setFreezeEvents(bool p0) 
 	{
-	    JNI.CallVoidMethod(this, _msetFreezeEvents6, new JValue(p0));
+	    JNI.CallVoidMethod(this, _msetFreezeEvents4, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -628,7 +822,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public string getPhysicalDeviceDescription() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceDescription7);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceDescription5);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -641,7 +835,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public string getPhysicalDeviceName() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceName8);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceName6);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -654,7 +848,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public void checkHealth(int p0) 
 	{
-	    JNI.CallVoidMethod(this, _mcheckHealth9, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mcheckHealth7, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -665,7 +859,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public void directIO(int p0,JObject p1,JObject p2) 
 	{
-	    JNI.CallVoidMethod(this, _mdirectIO10, new JValue(p0),new JValue(p1),new JValue(p2));
+	    JNI.CallVoidMethod(this, _mdirectIO8, new JValue(p0),new JValue(p1),new JValue(p2));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -676,7 +870,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public string getCheckHealthText() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetCheckHealthText11);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetCheckHealthText9);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -689,7 +883,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public string getDeviceControlDescription() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceControlDescription12);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceControlDescription10);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -702,7 +896,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public int getDeviceControlVersion() 
 	{
-	    int ret = JNI.CallMethod<int>(this, _mgetDeviceControlVersion13);
+	    int ret = JNI.CallMethod<int>(this, _mgetDeviceControlVersion11);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -715,7 +909,7 @@ class BaseControl : JObject {
 	[DebuggerNonUserCode]
 	public string getDeviceServiceDescription() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceServiceDescription14);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceServiceDescription12);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -723,6 +917,32 @@ class BaseControl : JObject {
 	    }
 
 	    return ret.GetString();
+	}
+
+	[DebuggerNonUserCode]
+	public int getDeviceServiceVersion() 
+	{
+	    int ret = JNI.CallMethod<int>(this, _mgetDeviceServiceVersion13);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
+	}
+
+	[DebuggerNonUserCode]
+	public bool getFreezeEvents() 
+	{
+	    bool ret = JNI.CallMethod<bool>(this, _mgetFreezeEvents14);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
 	}
 
 	[DebuggerNonUserCode]
@@ -786,28 +1006,28 @@ class BaseControl : JObject {
   	if( _mopen2.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mrelease3 = _class.GetMethodID("release", _release3);
   	if( _mrelease3.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceServiceVersion4 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion4);
-  	if( _mgetDeviceServiceVersion4.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetFreezeEvents5 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents5);
-  	if( _mgetFreezeEvents5.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_msetFreezeEvents6 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents6);
-  	if( _msetFreezeEvents6.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetPhysicalDeviceDescription7 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription7);
-  	if( _mgetPhysicalDeviceDescription7.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetPhysicalDeviceName8 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName8);
-  	if( _mgetPhysicalDeviceName8.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mcheckHealth9 = _class.GetMethodID("checkHealth", _checkHealth9);
-  	if( _mcheckHealth9.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mdirectIO10 = _class.GetMethodID("directIO", _directIO10);
-  	if( _mdirectIO10.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetCheckHealthText11 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText11);
-  	if( _mgetCheckHealthText11.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceControlDescription12 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription12);
-  	if( _mgetDeviceControlDescription12.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceControlVersion13 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion13);
-  	if( _mgetDeviceControlVersion13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceServiceDescription14 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription14);
-  	if( _mgetDeviceServiceDescription14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_msetFreezeEvents4 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents4);
+  	if( _msetFreezeEvents4.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetPhysicalDeviceDescription5 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription5);
+  	if( _mgetPhysicalDeviceDescription5.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetPhysicalDeviceName6 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName6);
+  	if( _mgetPhysicalDeviceName6.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mcheckHealth7 = _class.GetMethodID("checkHealth", _checkHealth7);
+  	if( _mcheckHealth7.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mdirectIO8 = _class.GetMethodID("directIO", _directIO8);
+  	if( _mdirectIO8.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetCheckHealthText9 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText9);
+  	if( _mgetCheckHealthText9.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceControlDescription10 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription10);
+  	if( _mgetDeviceControlDescription10.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceControlVersion11 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion11);
+  	if( _mgetDeviceControlVersion11.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceServiceDescription12 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription12);
+  	if( _mgetDeviceServiceDescription12.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceServiceVersion13 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion13);
+  	if( _mgetDeviceServiceVersion13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetFreezeEvents14 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents14);
+  	if( _mgetFreezeEvents14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mclaim15 = _class.GetMethodID("claim", _claim15);
   	if( _mclaim15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_msetDeviceEnabled16 = _class.GetMethodID("setDeviceEnabled", _setDeviceEnabled16);
@@ -828,17 +1048,17 @@ class BaseJposControl : JObject {
 	protected static string _close1 = "()V";
 	protected static string _open2 = "(Ljava/lang/String;)V";
 	protected static string _release3 = "()V";
-	protected static string _getDeviceServiceVersion4 = "()I";
-	protected static string _getFreezeEvents5 = "()Z";
-	protected static string _setFreezeEvents6 = "(Z)V";
-	protected static string _getPhysicalDeviceDescription7 = "()Ljava/lang/String;";
-	protected static string _getPhysicalDeviceName8 = "()Ljava/lang/String;";
-	protected static string _checkHealth9 = "(I)V";
-	protected static string _directIO10 = "(I[ILjava/lang/Object;)V";
-	protected static string _getCheckHealthText11 = "()Ljava/lang/String;";
-	protected static string _getDeviceControlDescription12 = "()Ljava/lang/String;";
-	protected static string _getDeviceControlVersion13 = "()I";
-	protected static string _getDeviceServiceDescription14 = "()Ljava/lang/String;";
+	protected static string _setFreezeEvents4 = "(Z)V";
+	protected static string _getPhysicalDeviceDescription5 = "()Ljava/lang/String;";
+	protected static string _getPhysicalDeviceName6 = "()Ljava/lang/String;";
+	protected static string _checkHealth7 = "(I)V";
+	protected static string _directIO8 = "(I[ILjava/lang/Object;)V";
+	protected static string _getCheckHealthText9 = "()Ljava/lang/String;";
+	protected static string _getDeviceControlDescription10 = "()Ljava/lang/String;";
+	protected static string _getDeviceControlVersion11 = "()I";
+	protected static string _getDeviceServiceDescription12 = "()Ljava/lang/String;";
+	protected static string _getDeviceServiceVersion13 = "()I";
+	protected static string _getFreezeEvents14 = "()Z";
 	protected static string _claim15 = "(I)V";
 	protected static string _setDeviceEnabled16 = "(Z)V";
 	protected static string _getDeviceEnabled17 = "()Z";
@@ -848,17 +1068,17 @@ class BaseJposControl : JObject {
 	protected static JMethodID _mclose1;
 	protected static JMethodID _mopen2;
 	protected static JMethodID _mrelease3;
-	protected static JMethodID _mgetDeviceServiceVersion4;
-	protected static JMethodID _mgetFreezeEvents5;
-	protected static JMethodID _msetFreezeEvents6;
-	protected static JMethodID _mgetPhysicalDeviceDescription7;
-	protected static JMethodID _mgetPhysicalDeviceName8;
-	protected static JMethodID _mcheckHealth9;
-	protected static JMethodID _mdirectIO10;
-	protected static JMethodID _mgetCheckHealthText11;
-	protected static JMethodID _mgetDeviceControlDescription12;
-	protected static JMethodID _mgetDeviceControlVersion13;
-	protected static JMethodID _mgetDeviceServiceDescription14;
+	protected static JMethodID _msetFreezeEvents4;
+	protected static JMethodID _mgetPhysicalDeviceDescription5;
+	protected static JMethodID _mgetPhysicalDeviceName6;
+	protected static JMethodID _mcheckHealth7;
+	protected static JMethodID _mdirectIO8;
+	protected static JMethodID _mgetCheckHealthText9;
+	protected static JMethodID _mgetDeviceControlDescription10;
+	protected static JMethodID _mgetDeviceControlVersion11;
+	protected static JMethodID _mgetDeviceServiceDescription12;
+	protected static JMethodID _mgetDeviceServiceVersion13;
+	protected static JMethodID _mgetFreezeEvents14;
 	protected static JMethodID _mclaim15;
 	protected static JMethodID _msetDeviceEnabled16;
 	protected static JMethodID _mgetDeviceEnabled17;
@@ -954,35 +1174,9 @@ class BaseJposControl : JObject {
 	}
 
 	[DebuggerNonUserCode]
-	public int getDeviceServiceVersion() 
-	{
-	    int ret = JNI.CallMethod<int>(this, _mgetDeviceServiceVersion4);
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-
-	    return ret;
-	}
-
-	[DebuggerNonUserCode]
-	public bool getFreezeEvents() 
-	{
-	    bool ret = JNI.CallMethod<bool>(this, _mgetFreezeEvents5);
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-
-	    return ret;
-	}
-
-	[DebuggerNonUserCode]
 	public void setFreezeEvents(bool p0) 
 	{
-	    JNI.CallVoidMethod(this, _msetFreezeEvents6, new JValue(p0));
+	    JNI.CallVoidMethod(this, _msetFreezeEvents4, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -993,7 +1187,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public string getPhysicalDeviceDescription() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceDescription7);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceDescription5);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1006,7 +1200,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public string getPhysicalDeviceName() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceName8);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetPhysicalDeviceName6);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1019,7 +1213,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public void checkHealth(int p0) 
 	{
-	    JNI.CallVoidMethod(this, _mcheckHealth9, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mcheckHealth7, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1030,7 +1224,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public void directIO(int p0,JObject p1,JObject p2) 
 	{
-	    JNI.CallVoidMethod(this, _mdirectIO10, new JValue(p0),new JValue(p1),new JValue(p2));
+	    JNI.CallVoidMethod(this, _mdirectIO8, new JValue(p0),new JValue(p1),new JValue(p2));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1041,7 +1235,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public string getCheckHealthText() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetCheckHealthText11);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetCheckHealthText9);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1054,7 +1248,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public string getDeviceControlDescription() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceControlDescription12);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceControlDescription10);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1067,7 +1261,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public int getDeviceControlVersion() 
 	{
-	    int ret = JNI.CallMethod<int>(this, _mgetDeviceControlVersion13);
+	    int ret = JNI.CallMethod<int>(this, _mgetDeviceControlVersion11);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1080,7 +1274,7 @@ class BaseJposControl : JObject {
 	[DebuggerNonUserCode]
 	public string getDeviceServiceDescription() 
 	{
-	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceServiceDescription14);
+	    JString ret = JNI.CallObjectMethod<JString>(this, _mgetDeviceServiceDescription12);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1088,6 +1282,32 @@ class BaseJposControl : JObject {
 	    }
 
 	    return ret.GetString();
+	}
+
+	[DebuggerNonUserCode]
+	public int getDeviceServiceVersion() 
+	{
+	    int ret = JNI.CallMethod<int>(this, _mgetDeviceServiceVersion13);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
+	}
+
+	[DebuggerNonUserCode]
+	public bool getFreezeEvents() 
+	{
+	    bool ret = JNI.CallMethod<bool>(this, _mgetFreezeEvents14);
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return ret;
 	}
 
 	[DebuggerNonUserCode]
@@ -1153,28 +1373,28 @@ class BaseJposControl : JObject {
   	if( _mopen2.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mrelease3 = _class.GetMethodID("release", _release3);
   	if( _mrelease3.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceServiceVersion4 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion4);
-  	if( _mgetDeviceServiceVersion4.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetFreezeEvents5 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents5);
-  	if( _mgetFreezeEvents5.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_msetFreezeEvents6 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents6);
-  	if( _msetFreezeEvents6.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetPhysicalDeviceDescription7 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription7);
-  	if( _mgetPhysicalDeviceDescription7.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetPhysicalDeviceName8 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName8);
-  	if( _mgetPhysicalDeviceName8.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mcheckHealth9 = _class.GetMethodID("checkHealth", _checkHealth9);
-  	if( _mcheckHealth9.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mdirectIO10 = _class.GetMethodID("directIO", _directIO10);
-  	if( _mdirectIO10.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetCheckHealthText11 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText11);
-  	if( _mgetCheckHealthText11.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceControlDescription12 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription12);
-  	if( _mgetDeviceControlDescription12.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceControlVersion13 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion13);
-  	if( _mgetDeviceControlVersion13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetDeviceServiceDescription14 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription14);
-  	if( _mgetDeviceServiceDescription14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_msetFreezeEvents4 = _class.GetMethodID("setFreezeEvents", _setFreezeEvents4);
+  	if( _msetFreezeEvents4.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetPhysicalDeviceDescription5 = _class.GetMethodID("getPhysicalDeviceDescription", _getPhysicalDeviceDescription5);
+  	if( _mgetPhysicalDeviceDescription5.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetPhysicalDeviceName6 = _class.GetMethodID("getPhysicalDeviceName", _getPhysicalDeviceName6);
+  	if( _mgetPhysicalDeviceName6.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mcheckHealth7 = _class.GetMethodID("checkHealth", _checkHealth7);
+  	if( _mcheckHealth7.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mdirectIO8 = _class.GetMethodID("directIO", _directIO8);
+  	if( _mdirectIO8.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetCheckHealthText9 = _class.GetMethodID("getCheckHealthText", _getCheckHealthText9);
+  	if( _mgetCheckHealthText9.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceControlDescription10 = _class.GetMethodID("getDeviceControlDescription", _getDeviceControlDescription10);
+  	if( _mgetDeviceControlDescription10.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceControlVersion11 = _class.GetMethodID("getDeviceControlVersion", _getDeviceControlVersion11);
+  	if( _mgetDeviceControlVersion11.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceServiceDescription12 = _class.GetMethodID("getDeviceServiceDescription", _getDeviceServiceDescription12);
+  	if( _mgetDeviceServiceDescription12.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetDeviceServiceVersion13 = _class.GetMethodID("getDeviceServiceVersion", _getDeviceServiceVersion13);
+  	if( _mgetDeviceServiceVersion13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetFreezeEvents14 = _class.GetMethodID("getFreezeEvents", _getFreezeEvents14);
+  	if( _mgetFreezeEvents14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mclaim15 = _class.GetMethodID("claim", _claim15);
   	if( _mclaim15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_msetDeviceEnabled16 = _class.GetMethodID("setDeviceEnabled", _setDeviceEnabled16);
@@ -1215,15 +1435,15 @@ class Scanner : jpos.BaseJposControl {
 	protected static string _updateFirmware21 = "(Ljava/lang/String;)V";
 	protected static string _clearInputProperties22 = "()V";
 	protected static string _addDirectIOListener23 = "(Ljpos/events/DirectIOListener;)V";
-	protected static string _getCapPowerReporting24 = "()I";
-	protected static string _setDataEventEnabled25 = "(Z)V";
-	protected static string _addDataListener26 = "(Ljpos/events/DataListener;)V";
-	protected static string _addErrorListener27 = "(Ljpos/events/ErrorListener;)V";
-	protected static string _addStatusUpdateListener28 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeDataListener29 = "(Ljpos/events/DataListener;)V";
-	protected static string _removeErrorListener30 = "(Ljpos/events/ErrorListener;)V";
-	protected static string _removeStatusUpdateListener31 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeDirectIOListener32 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _removeDirectIOListener24 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _getCapPowerReporting25 = "()I";
+	protected static string _setDataEventEnabled26 = "(Z)V";
+	protected static string _addDataListener27 = "(Ljpos/events/DataListener;)V";
+	protected static string _addErrorListener28 = "(Ljpos/events/ErrorListener;)V";
+	protected static string _addStatusUpdateListener29 = "(Ljpos/events/StatusUpdateListener;)V";
+	protected static string _removeDataListener30 = "(Ljpos/events/DataListener;)V";
+	protected static string _removeErrorListener31 = "(Ljpos/events/ErrorListener;)V";
+	protected static string _removeStatusUpdateListener32 = "(Ljpos/events/StatusUpdateListener;)V";
 	protected static JMethodID _minit0;
 	protected static JMethodID _mgetCapStatisticsReporting0;
 	protected static JMethodID _mgetCapUpdateStatistics1;
@@ -1249,15 +1469,15 @@ class Scanner : jpos.BaseJposControl {
 	protected static JMethodID _mupdateFirmware21;
 	protected static JMethodID _mclearInputProperties22;
 	protected static JMethodID _maddDirectIOListener23;
-	protected static JMethodID _mgetCapPowerReporting24;
-	protected static JMethodID _msetDataEventEnabled25;
-	protected static JMethodID _maddDataListener26;
-	protected static JMethodID _maddErrorListener27;
-	protected static JMethodID _maddStatusUpdateListener28;
-	protected static JMethodID _mremoveDataListener29;
-	protected static JMethodID _mremoveErrorListener30;
-	protected static JMethodID _mremoveStatusUpdateListener31;
-	protected static JMethodID _mremoveDirectIOListener32;
+	protected static JMethodID _mremoveDirectIOListener24;
+	protected static JMethodID _mgetCapPowerReporting25;
+	protected static JMethodID _msetDataEventEnabled26;
+	protected static JMethodID _maddDataListener27;
+	protected static JMethodID _maddErrorListener28;
+	protected static JMethodID _maddStatusUpdateListener29;
+	protected static JMethodID _mremoveDataListener30;
+	protected static JMethodID _mremoveErrorListener31;
+	protected static JMethodID _mremoveStatusUpdateListener32;
 
 	[DebuggerNonUserCode]
 	public static bool IsInstanceOf(JObject except)
@@ -1593,9 +1813,20 @@ class Scanner : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
+	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
+	{
+	    JNI.CallVoidMethod(this, _mremoveDirectIOListener24, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
 	public int getCapPowerReporting() 
 	{
-	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting24);
+	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting25);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1608,7 +1839,7 @@ class Scanner : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void setDataEventEnabled(bool p0) 
 	{
-	    JNI.CallVoidMethod(this, _msetDataEventEnabled25, new JValue(p0));
+	    JNI.CallVoidMethod(this, _msetDataEventEnabled26, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1619,7 +1850,7 @@ class Scanner : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void addDataListener(jpos.events.DataListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddDataListener26, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddDataListener27, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1628,9 +1859,9 @@ class Scanner : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void addErrorListener(JObject p0) 
+	public void addErrorListener(jpos.events.ErrorListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddErrorListener27, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddErrorListener28, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1641,7 +1872,7 @@ class Scanner : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void addStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddStatusUpdateListener28, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddStatusUpdateListener29, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1652,7 +1883,7 @@ class Scanner : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void removeDataListener(jpos.events.DataListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveDataListener29, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveDataListener30, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1661,9 +1892,9 @@ class Scanner : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void removeErrorListener(JObject p0) 
+	public void removeErrorListener(jpos.events.ErrorListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveErrorListener30, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveErrorListener31, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1674,18 +1905,7 @@ class Scanner : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void removeStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener31, new JValue(p0));
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-	}
-
-	[DebuggerNonUserCode]
-	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
-	{
-	    JNI.CallVoidMethod(this, _mremoveDirectIOListener32, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener32, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -1748,24 +1968,24 @@ class Scanner : jpos.BaseJposControl {
   	if( _mclearInputProperties22.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_maddDirectIOListener23 = _class.GetMethodID("addDirectIOListener", _addDirectIOListener23);
   	if( _maddDirectIOListener23.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetCapPowerReporting24 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting24);
-  	if( _mgetCapPowerReporting24.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_msetDataEventEnabled25 = _class.GetMethodID("setDataEventEnabled", _setDataEventEnabled25);
-  	if( _msetDataEventEnabled25.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddDataListener26 = _class.GetMethodID("addDataListener", _addDataListener26);
-  	if( _maddDataListener26.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddErrorListener27 = _class.GetMethodID("addErrorListener", _addErrorListener27);
-  	if( _maddErrorListener27.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddStatusUpdateListener28 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener28);
-  	if( _maddStatusUpdateListener28.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveDataListener29 = _class.GetMethodID("removeDataListener", _removeDataListener29);
-  	if( _mremoveDataListener29.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveErrorListener30 = _class.GetMethodID("removeErrorListener", _removeErrorListener30);
-  	if( _mremoveErrorListener30.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveStatusUpdateListener31 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener31);
-  	if( _mremoveStatusUpdateListener31.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveDirectIOListener32 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener32);
-  	if( _mremoveDirectIOListener32.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveDirectIOListener24 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener24);
+  	if( _mremoveDirectIOListener24.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetCapPowerReporting25 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting25);
+  	if( _mgetCapPowerReporting25.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_msetDataEventEnabled26 = _class.GetMethodID("setDataEventEnabled", _setDataEventEnabled26);
+  	if( _msetDataEventEnabled26.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddDataListener27 = _class.GetMethodID("addDataListener", _addDataListener27);
+  	if( _maddDataListener27.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddErrorListener28 = _class.GetMethodID("addErrorListener", _addErrorListener28);
+  	if( _maddErrorListener28.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddStatusUpdateListener29 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener29);
+  	if( _maddStatusUpdateListener29.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveDataListener30 = _class.GetMethodID("removeDataListener", _removeDataListener30);
+  	if( _mremoveDataListener30.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveErrorListener31 = _class.GetMethodID("removeErrorListener", _removeErrorListener31);
+  	if( _mremoveErrorListener31.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveStatusUpdateListener32 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener32);
+  	if( _mremoveStatusUpdateListener32.Handle == IntPtr.Zero ) throw new InvalidOperationException();
 	}
 }
 }
@@ -1787,10 +2007,10 @@ class CashDrawer : jpos.BaseJposControl {
 	protected static string _compareFirmwareVersion10 = "(Ljava/lang/String;[I)V";
 	protected static string _updateFirmware11 = "(Ljava/lang/String;)V";
 	protected static string _addDirectIOListener12 = "(Ljpos/events/DirectIOListener;)V";
-	protected static string _getCapPowerReporting13 = "()I";
-	protected static string _addStatusUpdateListener14 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeStatusUpdateListener15 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeDirectIOListener16 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _removeDirectIOListener13 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _getCapPowerReporting14 = "()I";
+	protected static string _addStatusUpdateListener15 = "(Ljpos/events/StatusUpdateListener;)V";
+	protected static string _removeStatusUpdateListener16 = "(Ljpos/events/StatusUpdateListener;)V";
 	protected static string _getCapStatus17 = "()Z";
 	protected static string _getDrawerOpened18 = "()Z";
 	protected static string _openDrawer19 = "()V";
@@ -1810,10 +2030,10 @@ class CashDrawer : jpos.BaseJposControl {
 	protected static JMethodID _mcompareFirmwareVersion10;
 	protected static JMethodID _mupdateFirmware11;
 	protected static JMethodID _maddDirectIOListener12;
-	protected static JMethodID _mgetCapPowerReporting13;
-	protected static JMethodID _maddStatusUpdateListener14;
-	protected static JMethodID _mremoveStatusUpdateListener15;
-	protected static JMethodID _mremoveDirectIOListener16;
+	protected static JMethodID _mremoveDirectIOListener13;
+	protected static JMethodID _mgetCapPowerReporting14;
+	protected static JMethodID _maddStatusUpdateListener15;
+	protected static JMethodID _mremoveStatusUpdateListener16;
 	protected static JMethodID _mgetCapStatus17;
 	protected static JMethodID _mgetDrawerOpened18;
 	protected static JMethodID _mopenDrawer19;
@@ -2019,9 +2239,20 @@ class CashDrawer : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
+	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
+	{
+	    JNI.CallVoidMethod(this, _mremoveDirectIOListener13, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
 	public int getCapPowerReporting() 
 	{
-	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting13);
+	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting14);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -2034,7 +2265,7 @@ class CashDrawer : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void addStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddStatusUpdateListener14, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddStatusUpdateListener15, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -2045,18 +2276,7 @@ class CashDrawer : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void removeStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener15, new JValue(p0));
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-	}
-
-	[DebuggerNonUserCode]
-	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
-	{
-	    JNI.CallVoidMethod(this, _mremoveDirectIOListener16, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener16, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -2158,14 +2378,14 @@ class CashDrawer : jpos.BaseJposControl {
   	if( _mupdateFirmware11.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_maddDirectIOListener12 = _class.GetMethodID("addDirectIOListener", _addDirectIOListener12);
   	if( _maddDirectIOListener12.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetCapPowerReporting13 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting13);
-  	if( _mgetCapPowerReporting13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddStatusUpdateListener14 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener14);
-  	if( _maddStatusUpdateListener14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveStatusUpdateListener15 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener15);
-  	if( _mremoveStatusUpdateListener15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveDirectIOListener16 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener16);
-  	if( _mremoveDirectIOListener16.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveDirectIOListener13 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener13);
+  	if( _mremoveDirectIOListener13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetCapPowerReporting14 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting14);
+  	if( _mgetCapPowerReporting14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddStatusUpdateListener15 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener15);
+  	if( _maddStatusUpdateListener15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveStatusUpdateListener16 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener16);
+  	if( _mremoveStatusUpdateListener16.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetCapStatus17 = _class.GetMethodID("getCapStatus", _getCapStatus17);
   	if( _mgetCapStatus17.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetDrawerOpened18 = _class.GetMethodID("getDrawerOpened", _getDrawerOpened18);
@@ -2197,10 +2417,10 @@ class CoinDispenser : jpos.BaseJposControl {
 	protected static string _compareFirmwareVersion10 = "(Ljava/lang/String;[I)V";
 	protected static string _updateFirmware11 = "(Ljava/lang/String;)V";
 	protected static string _addDirectIOListener12 = "(Ljpos/events/DirectIOListener;)V";
-	protected static string _getCapPowerReporting13 = "()I";
-	protected static string _addStatusUpdateListener14 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeStatusUpdateListener15 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeDirectIOListener16 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _removeDirectIOListener13 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _getCapPowerReporting14 = "()I";
+	protected static string _addStatusUpdateListener15 = "(Ljpos/events/StatusUpdateListener;)V";
+	protected static string _removeStatusUpdateListener16 = "(Ljpos/events/StatusUpdateListener;)V";
 	protected static string _getCapEmptySensor17 = "()Z";
 	protected static string _getCapJamSensor18 = "()Z";
 	protected static string _getCapNearEmptySensor19 = "()Z";
@@ -2222,10 +2442,10 @@ class CoinDispenser : jpos.BaseJposControl {
 	protected static JMethodID _mcompareFirmwareVersion10;
 	protected static JMethodID _mupdateFirmware11;
 	protected static JMethodID _maddDirectIOListener12;
-	protected static JMethodID _mgetCapPowerReporting13;
-	protected static JMethodID _maddStatusUpdateListener14;
-	protected static JMethodID _mremoveStatusUpdateListener15;
-	protected static JMethodID _mremoveDirectIOListener16;
+	protected static JMethodID _mremoveDirectIOListener13;
+	protected static JMethodID _mgetCapPowerReporting14;
+	protected static JMethodID _maddStatusUpdateListener15;
+	protected static JMethodID _mremoveStatusUpdateListener16;
 	protected static JMethodID _mgetCapEmptySensor17;
 	protected static JMethodID _mgetCapJamSensor18;
 	protected static JMethodID _mgetCapNearEmptySensor19;
@@ -2433,9 +2653,20 @@ class CoinDispenser : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
+	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
+	{
+	    JNI.CallVoidMethod(this, _mremoveDirectIOListener13, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
 	public int getCapPowerReporting() 
 	{
-	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting13);
+	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting14);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -2448,7 +2679,7 @@ class CoinDispenser : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void addStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddStatusUpdateListener14, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddStatusUpdateListener15, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -2459,18 +2690,7 @@ class CoinDispenser : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void removeStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener15, new JValue(p0));
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-	}
-
-	[DebuggerNonUserCode]
-	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
-	{
-	    JNI.CallVoidMethod(this, _mremoveDirectIOListener16, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener16, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -2596,14 +2816,14 @@ class CoinDispenser : jpos.BaseJposControl {
   	if( _mupdateFirmware11.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_maddDirectIOListener12 = _class.GetMethodID("addDirectIOListener", _addDirectIOListener12);
   	if( _maddDirectIOListener12.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetCapPowerReporting13 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting13);
-  	if( _mgetCapPowerReporting13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddStatusUpdateListener14 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener14);
-  	if( _maddStatusUpdateListener14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveStatusUpdateListener15 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener15);
-  	if( _mremoveStatusUpdateListener15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveDirectIOListener16 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener16);
-  	if( _mremoveDirectIOListener16.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveDirectIOListener13 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener13);
+  	if( _mremoveDirectIOListener13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetCapPowerReporting14 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting14);
+  	if( _mgetCapPowerReporting14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddStatusUpdateListener15 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener15);
+  	if( _maddStatusUpdateListener15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveStatusUpdateListener16 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener16);
+  	if( _mremoveStatusUpdateListener16.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetCapEmptySensor17 = _class.GetMethodID("getCapEmptySensor", _getCapEmptySensor17);
   	if( _mgetCapEmptySensor17.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetCapJamSensor18 = _class.GetMethodID("getCapJamSensor", _getCapJamSensor18);
@@ -2643,15 +2863,15 @@ class PINPad : jpos.BaseJposControl {
 	protected static string _updateFirmware14 = "(Ljava/lang/String;)V";
 	protected static string _clearInputProperties15 = "()V";
 	protected static string _addDirectIOListener16 = "(Ljpos/events/DirectIOListener;)V";
-	protected static string _getCapPowerReporting17 = "()I";
-	protected static string _setDataEventEnabled18 = "(Z)V";
-	protected static string _addDataListener19 = "(Ljpos/events/DataListener;)V";
-	protected static string _addErrorListener20 = "(Ljpos/events/ErrorListener;)V";
-	protected static string _addStatusUpdateListener21 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeDataListener22 = "(Ljpos/events/DataListener;)V";
-	protected static string _removeErrorListener23 = "(Ljpos/events/ErrorListener;)V";
-	protected static string _removeStatusUpdateListener24 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeDirectIOListener25 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _removeDirectIOListener17 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _getCapPowerReporting18 = "()I";
+	protected static string _setDataEventEnabled19 = "(Z)V";
+	protected static string _addDataListener20 = "(Ljpos/events/DataListener;)V";
+	protected static string _addErrorListener21 = "(Ljpos/events/ErrorListener;)V";
+	protected static string _addStatusUpdateListener22 = "(Ljpos/events/StatusUpdateListener;)V";
+	protected static string _removeDataListener23 = "(Ljpos/events/DataListener;)V";
+	protected static string _removeErrorListener24 = "(Ljpos/events/ErrorListener;)V";
+	protected static string _removeStatusUpdateListener25 = "(Ljpos/events/StatusUpdateListener;)V";
 	protected static string _getCapDisplay26 = "()I";
 	protected static string _getCapLanguage27 = "()I";
 	protected static string _getCapKeyboard28 = "()Z";
@@ -2712,15 +2932,15 @@ class PINPad : jpos.BaseJposControl {
 	protected static JMethodID _mupdateFirmware14;
 	protected static JMethodID _mclearInputProperties15;
 	protected static JMethodID _maddDirectIOListener16;
-	protected static JMethodID _mgetCapPowerReporting17;
-	protected static JMethodID _msetDataEventEnabled18;
-	protected static JMethodID _maddDataListener19;
-	protected static JMethodID _maddErrorListener20;
-	protected static JMethodID _maddStatusUpdateListener21;
-	protected static JMethodID _mremoveDataListener22;
-	protected static JMethodID _mremoveErrorListener23;
-	protected static JMethodID _mremoveStatusUpdateListener24;
-	protected static JMethodID _mremoveDirectIOListener25;
+	protected static JMethodID _mremoveDirectIOListener17;
+	protected static JMethodID _mgetCapPowerReporting18;
+	protected static JMethodID _msetDataEventEnabled19;
+	protected static JMethodID _maddDataListener20;
+	protected static JMethodID _maddErrorListener21;
+	protected static JMethodID _maddStatusUpdateListener22;
+	protected static JMethodID _mremoveDataListener23;
+	protected static JMethodID _mremoveErrorListener24;
+	protected static JMethodID _mremoveStatusUpdateListener25;
 	protected static JMethodID _mgetCapDisplay26;
 	protected static JMethodID _mgetCapLanguage27;
 	protected static JMethodID _mgetCapKeyboard28;
@@ -3011,9 +3231,20 @@ class PINPad : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
+	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
+	{
+	    JNI.CallVoidMethod(this, _mremoveDirectIOListener17, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
 	public int getCapPowerReporting() 
 	{
-	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting17);
+	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting18);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3026,7 +3257,7 @@ class PINPad : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void setDataEventEnabled(bool p0) 
 	{
-	    JNI.CallVoidMethod(this, _msetDataEventEnabled18, new JValue(p0));
+	    JNI.CallVoidMethod(this, _msetDataEventEnabled19, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3037,7 +3268,7 @@ class PINPad : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void addDataListener(jpos.events.DataListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddDataListener19, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddDataListener20, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3046,9 +3277,9 @@ class PINPad : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void addErrorListener(JObject p0) 
+	public void addErrorListener(jpos.events.ErrorListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddErrorListener20, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddErrorListener21, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3059,7 +3290,7 @@ class PINPad : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void addStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddStatusUpdateListener21, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddStatusUpdateListener22, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3070,7 +3301,7 @@ class PINPad : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void removeDataListener(jpos.events.DataListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveDataListener22, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveDataListener23, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3079,9 +3310,9 @@ class PINPad : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void removeErrorListener(JObject p0) 
+	public void removeErrorListener(jpos.events.ErrorListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveErrorListener23, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveErrorListener24, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3092,18 +3323,7 @@ class PINPad : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void removeStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener24, new JValue(p0));
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-	}
-
-	[DebuggerNonUserCode]
-	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
-	{
-	    JNI.CallVoidMethod(this, _mremoveDirectIOListener25, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener25, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -3660,24 +3880,24 @@ class PINPad : jpos.BaseJposControl {
   	if( _mclearInputProperties15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_maddDirectIOListener16 = _class.GetMethodID("addDirectIOListener", _addDirectIOListener16);
   	if( _maddDirectIOListener16.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetCapPowerReporting17 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting17);
-  	if( _mgetCapPowerReporting17.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_msetDataEventEnabled18 = _class.GetMethodID("setDataEventEnabled", _setDataEventEnabled18);
-  	if( _msetDataEventEnabled18.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddDataListener19 = _class.GetMethodID("addDataListener", _addDataListener19);
-  	if( _maddDataListener19.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddErrorListener20 = _class.GetMethodID("addErrorListener", _addErrorListener20);
-  	if( _maddErrorListener20.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddStatusUpdateListener21 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener21);
-  	if( _maddStatusUpdateListener21.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveDataListener22 = _class.GetMethodID("removeDataListener", _removeDataListener22);
-  	if( _mremoveDataListener22.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveErrorListener23 = _class.GetMethodID("removeErrorListener", _removeErrorListener23);
-  	if( _mremoveErrorListener23.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveStatusUpdateListener24 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener24);
-  	if( _mremoveStatusUpdateListener24.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveDirectIOListener25 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener25);
-  	if( _mremoveDirectIOListener25.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveDirectIOListener17 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener17);
+  	if( _mremoveDirectIOListener17.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetCapPowerReporting18 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting18);
+  	if( _mgetCapPowerReporting18.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_msetDataEventEnabled19 = _class.GetMethodID("setDataEventEnabled", _setDataEventEnabled19);
+  	if( _msetDataEventEnabled19.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddDataListener20 = _class.GetMethodID("addDataListener", _addDataListener20);
+  	if( _maddDataListener20.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddErrorListener21 = _class.GetMethodID("addErrorListener", _addErrorListener21);
+  	if( _maddErrorListener21.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddStatusUpdateListener22 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener22);
+  	if( _maddStatusUpdateListener22.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveDataListener23 = _class.GetMethodID("removeDataListener", _removeDataListener23);
+  	if( _mremoveDataListener23.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveErrorListener24 = _class.GetMethodID("removeErrorListener", _removeErrorListener24);
+  	if( _mremoveErrorListener24.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveStatusUpdateListener25 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener25);
+  	if( _mremoveStatusUpdateListener25.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetCapDisplay26 = _class.GetMethodID("getCapDisplay", _getCapDisplay26);
   	if( _mgetCapDisplay26.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetCapLanguage27 = _class.GetMethodID("getCapLanguage", _getCapLanguage27);
@@ -3785,12 +4005,12 @@ class POSPrinter : jpos.BaseJposControl {
 	protected static string _compareFirmwareVersion12 = "(Ljava/lang/String;[I)V";
 	protected static string _updateFirmware13 = "(Ljava/lang/String;)V";
 	protected static string _addDirectIOListener14 = "(Ljpos/events/DirectIOListener;)V";
-	protected static string _getCapPowerReporting15 = "()I";
-	protected static string _addErrorListener16 = "(Ljpos/events/ErrorListener;)V";
-	protected static string _addStatusUpdateListener17 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeErrorListener18 = "(Ljpos/events/ErrorListener;)V";
-	protected static string _removeStatusUpdateListener19 = "(Ljpos/events/StatusUpdateListener;)V";
-	protected static string _removeDirectIOListener20 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _removeDirectIOListener15 = "(Ljpos/events/DirectIOListener;)V";
+	protected static string _getCapPowerReporting16 = "()I";
+	protected static string _addErrorListener17 = "(Ljpos/events/ErrorListener;)V";
+	protected static string _addStatusUpdateListener18 = "(Ljpos/events/StatusUpdateListener;)V";
+	protected static string _removeErrorListener19 = "(Ljpos/events/ErrorListener;)V";
+	protected static string _removeStatusUpdateListener20 = "(Ljpos/events/StatusUpdateListener;)V";
 	protected static string _getCapCharacterSet21 = "()I";
 	protected static string _getCapConcurrentJrnRec22 = "()Z";
 	protected static string _getCapConcurrentJrnSlp23 = "()Z";
@@ -3982,12 +4202,12 @@ class POSPrinter : jpos.BaseJposControl {
 	protected static JMethodID _mcompareFirmwareVersion12;
 	protected static JMethodID _mupdateFirmware13;
 	protected static JMethodID _maddDirectIOListener14;
-	protected static JMethodID _mgetCapPowerReporting15;
-	protected static JMethodID _maddErrorListener16;
-	protected static JMethodID _maddStatusUpdateListener17;
-	protected static JMethodID _mremoveErrorListener18;
-	protected static JMethodID _mremoveStatusUpdateListener19;
-	protected static JMethodID _mremoveDirectIOListener20;
+	protected static JMethodID _mremoveDirectIOListener15;
+	protected static JMethodID _mgetCapPowerReporting16;
+	protected static JMethodID _maddErrorListener17;
+	protected static JMethodID _maddStatusUpdateListener18;
+	protected static JMethodID _mremoveErrorListener19;
+	protected static JMethodID _mremoveStatusUpdateListener20;
 	protected static JMethodID _mgetCapCharacterSet21;
 	protected static JMethodID _mgetCapConcurrentJrnRec22;
 	protected static JMethodID _mgetCapConcurrentJrnSlp23;
@@ -4389,9 +4609,20 @@ class POSPrinter : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
+	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
+	{
+	    JNI.CallVoidMethod(this, _mremoveDirectIOListener15, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
 	public int getCapPowerReporting() 
 	{
-	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting15);
+	    int ret = JNI.CallMethod<int>(this, _mgetCapPowerReporting16);
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -4402,9 +4633,9 @@ class POSPrinter : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void addErrorListener(JObject p0) 
+	public void addErrorListener(jpos.events.ErrorListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddErrorListener16, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddErrorListener17, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -4415,7 +4646,7 @@ class POSPrinter : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void addStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _maddStatusUpdateListener17, new JValue(p0));
+	    JNI.CallVoidMethod(this, _maddStatusUpdateListener18, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -4424,9 +4655,9 @@ class POSPrinter : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void removeErrorListener(JObject p0) 
+	public void removeErrorListener(jpos.events.ErrorListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveErrorListener18, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveErrorListener19, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -4437,18 +4668,7 @@ class POSPrinter : jpos.BaseJposControl {
 	[DebuggerNonUserCode]
 	public void removeStatusUpdateListener(jpos.events.StatusUpdateListener p0) 
 	{
-	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener19, new JValue(p0));
-	    bool exception = JNI.ExceptionCheck();
-	    if (exception)
-	    {
-	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
-	    }
-	}
-
-	[DebuggerNonUserCode]
-	public void removeDirectIOListener(jpos.events.DirectIOListener p0) 
-	{
-	    JNI.CallVoidMethod(this, _mremoveDirectIOListener20, new JValue(p0));
+	    JNI.CallVoidMethod(this, _mremoveStatusUpdateListener20, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
 	    if (exception)
 	    {
@@ -6608,7 +6828,7 @@ class POSPrinter : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void addOutputCompleteListener(JObject p0) 
+	public void addOutputCompleteListener(jpos.events.OutputCompleteListener p0) 
 	{
 	    JNI.CallVoidMethod(this, _maddOutputCompleteListener194, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
@@ -6619,7 +6839,7 @@ class POSPrinter : jpos.BaseJposControl {
 	}
 
 	[DebuggerNonUserCode]
-	public void removeOutputCompleteListener(JObject p0) 
+	public void removeOutputCompleteListener(jpos.events.OutputCompleteListener p0) 
 	{
 	    JNI.CallVoidMethod(this, _mremoveOutputCompleteListener195, new JValue(p0));
 	    bool exception = JNI.ExceptionCheck();
@@ -6666,18 +6886,18 @@ class POSPrinter : jpos.BaseJposControl {
   	if( _mupdateFirmware13.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_maddDirectIOListener14 = _class.GetMethodID("addDirectIOListener", _addDirectIOListener14);
   	if( _maddDirectIOListener14.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mgetCapPowerReporting15 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting15);
-  	if( _mgetCapPowerReporting15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddErrorListener16 = _class.GetMethodID("addErrorListener", _addErrorListener16);
-  	if( _maddErrorListener16.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_maddStatusUpdateListener17 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener17);
-  	if( _maddStatusUpdateListener17.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveErrorListener18 = _class.GetMethodID("removeErrorListener", _removeErrorListener18);
-  	if( _mremoveErrorListener18.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveStatusUpdateListener19 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener19);
-  	if( _mremoveStatusUpdateListener19.Handle == IntPtr.Zero ) throw new InvalidOperationException();
-  	_mremoveDirectIOListener20 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener20);
-  	if( _mremoveDirectIOListener20.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveDirectIOListener15 = _class.GetMethodID("removeDirectIOListener", _removeDirectIOListener15);
+  	if( _mremoveDirectIOListener15.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mgetCapPowerReporting16 = _class.GetMethodID("getCapPowerReporting", _getCapPowerReporting16);
+  	if( _mgetCapPowerReporting16.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddErrorListener17 = _class.GetMethodID("addErrorListener", _addErrorListener17);
+  	if( _maddErrorListener17.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_maddStatusUpdateListener18 = _class.GetMethodID("addStatusUpdateListener", _addStatusUpdateListener18);
+  	if( _maddStatusUpdateListener18.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveErrorListener19 = _class.GetMethodID("removeErrorListener", _removeErrorListener19);
+  	if( _mremoveErrorListener19.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_mremoveStatusUpdateListener20 = _class.GetMethodID("removeStatusUpdateListener", _removeStatusUpdateListener20);
+  	if( _mremoveStatusUpdateListener20.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetCapCharacterSet21 = _class.GetMethodID("getCapCharacterSet", _getCapCharacterSet21);
   	if( _mgetCapCharacterSet21.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mgetCapConcurrentJrnRec22 = _class.GetMethodID("getCapConcurrentJrnRec", _getCapConcurrentJrnRec22);
@@ -7028,6 +7248,118 @@ class POSPrinter : jpos.BaseJposControl {
   	if( _maddOutputCompleteListener194.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mremoveOutputCompleteListener195 = _class.GetMethodID("removeOutputCompleteListener", _removeOutputCompleteListener195);
   	if( _mremoveOutputCompleteListener195.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+	}
+}
+}
+
+namespace jpos.events {
+class ErrorListener : JObject {
+	protected static JClass _class;
+	protected static string _errorOccurred0 = "(Ljpos/events/ErrorEvent;)V";
+	protected static JMethodID _merrorOccurred0;
+
+	[DebuggerNonUserCode]
+	public static bool IsInstanceOf(JObject except)
+	{
+	  return JNI.IsInstanceOf(except, _class);
+	}
+	[DebuggerNonUserCode]
+	private static Exception FromThrowable(JThrowable except)
+	{
+	  if (jpos.JposException.IsInstanceOf(except))
+	  {
+	    jpos.JposException d = new jpos.JposException(new JClone<JObject>() { Value = except });
+	    d.printStackTrace();
+	    int errorCode = d.getErrorCode();
+	    int errorCodeExtended = d.getErrorCodeExtended();
+	    return new PosControlException(except.ToString(), (ErrorCode)errorCode, errorCodeExtended);
+	  }
+	  else
+	  {
+	    except.printStackTrace();
+	    return new JavaException(except.ToString());
+	  }
+	}
+
+	[DebuggerNonUserCode]
+	public ErrorListener(JClone<JObject> obj) : base(obj) {} 
+
+
+
+	[DebuggerNonUserCode]
+	public void errorOccurred(jpos.events.ErrorEvent p0) 
+	{
+	    JNI.CallVoidMethod(this, _merrorOccurred0, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
+	static ErrorListener()
+	{
+  	_class = JNI.FindClass("jpos/events/ErrorListener");
+  	if( _class == null ) throw new InvalidOperationException();
+  	_merrorOccurred0 = _class.GetMethodID("errorOccurred", _errorOccurred0);
+  	if( _merrorOccurred0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+	}
+}
+}
+
+namespace jpos.events {
+class OutputCompleteListener : JObject {
+	protected static JClass _class;
+	protected static string _outputCompleteOccurred0 = "(Ljpos/events/OutputCompleteEvent;)V";
+	protected static JMethodID _moutputCompleteOccurred0;
+
+	[DebuggerNonUserCode]
+	public static bool IsInstanceOf(JObject except)
+	{
+	  return JNI.IsInstanceOf(except, _class);
+	}
+	[DebuggerNonUserCode]
+	private static Exception FromThrowable(JThrowable except)
+	{
+	  if (jpos.JposException.IsInstanceOf(except))
+	  {
+	    jpos.JposException d = new jpos.JposException(new JClone<JObject>() { Value = except });
+	    d.printStackTrace();
+	    int errorCode = d.getErrorCode();
+	    int errorCodeExtended = d.getErrorCodeExtended();
+	    return new PosControlException(except.ToString(), (ErrorCode)errorCode, errorCodeExtended);
+	  }
+	  else
+	  {
+	    except.printStackTrace();
+	    return new JavaException(except.ToString());
+	  }
+	}
+
+	[DebuggerNonUserCode]
+	public OutputCompleteListener(JClone<JObject> obj) : base(obj) {} 
+
+
+
+	[DebuggerNonUserCode]
+	public void outputCompleteOccurred(jpos.events.OutputCompleteEvent p0) 
+	{
+	    JNI.CallVoidMethod(this, _moutputCompleteOccurred0, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
+	static OutputCompleteListener()
+	{
+  	_class = JNI.FindClass("jpos/events/OutputCompleteListener");
+  	if( _class == null ) throw new InvalidOperationException();
+  	_moutputCompleteOccurred0 = _class.GetMethodID("outputCompleteOccurred", _outputCompleteOccurred0);
+  	if( _moutputCompleteOccurred0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
 	}
 }
 }
@@ -7645,6 +7977,252 @@ public interface Native {
   	if( _minit0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	_mstatusUpdateOccurred0 = _class.GetMethodID("statusUpdateOccurred", _statusUpdateOccurred0);
   	if( _mstatusUpdateOccurred0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	        Scanner_DataEventInternal evt = Scanner_DataEvent;
+  	    JNI.RegisterNatives(_class, new JNINativeMethod[] {
+  	        new JNINativeMethod() { name = "Scanner_DataEvent", signature = _Scanner_DataEvent0, fnPtr = Marshal.GetFunctionPointerForDelegate(evt) },
+  	    });
+	}
+}
+
+class NativeErrorListener : JObject {
+public interface Native {
+
+		public void Scanner_DataEvent(NativeErrorListener self,jpos.events.ErrorEvent p0);
+
+	}
+	internal static Native? nativeEvents { get; set; }
+	protected static JClass _class;
+	protected static string _init0 = "()V";
+	protected static string _errorOccurred0 = "(Ljpos/events/ErrorEvent;)V";
+	protected static string _Scanner_DataEvent0 = "(Ljpos/events/ErrorEvent;)V";
+	protected static JMethodID _minit0;
+	protected static JMethodID _merrorOccurred0;
+
+	[DebuggerNonUserCode]
+	public static bool IsInstanceOf(JObject except)
+	{
+	  return JNI.IsInstanceOf(except, _class);
+	}
+	[DebuggerNonUserCode]
+	private static Exception FromThrowable(JThrowable except)
+	{
+	  if (jpos.JposException.IsInstanceOf(except))
+	  {
+	    jpos.JposException d = new jpos.JposException(new JClone<JObject>() { Value = except });
+	    d.printStackTrace();
+	    int errorCode = d.getErrorCode();
+	    int errorCodeExtended = d.getErrorCodeExtended();
+	    return new PosControlException(except.ToString(), (ErrorCode)errorCode, errorCodeExtended);
+	  }
+	  else
+	  {
+	    except.printStackTrace();
+	    return new JavaException(except.ToString());
+	  }
+	}
+
+	[DebuggerNonUserCode]
+	public NativeErrorListener(JClone<JObject> obj) : base(obj) {} 
+
+	public NativeErrorListener() : base(initialize()) {}
+	[DebuggerNonUserCode]
+	protected static JClone<JObject> initialize() 
+	{
+	    JObject ret = JNI.NewObject<JObject>(_class, _minit0);
+	    bool exception = JNI.ExceptionCheck();
+	    if (ret.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return new JClone<JObject>() { Value = ret } ;
+	}
+
+	delegate void Scanner_DataEventInternal(IntPtr JNIEnv,IntPtr objectOrClasss,IntPtr p0);
+	public static List<WeakReference<NativeErrorListener>> mapping = new List<WeakReference<NativeErrorListener>>();
+	public static bool TryGet(IntPtr refz, out NativeErrorListener? l)
+	{
+	    NativeErrorListener? output = null;
+	    var s = new JObject(refz, JNI.ReferenceType.Local);
+	    for (int i = 0; i < mapping.Count; i++)
+	    {
+	        if (mapping[0].TryGetTarget(out output) && JNI.IsSameObject(output, s) == true)
+	        {
+	            l = output;
+	            return true;
+	        }
+	    }
+	
+	    l = null;
+	    return false;
+	}
+	public static void Register(NativeErrorListener c)
+	{
+	    mapping.Add(new WeakReference<NativeErrorListener>(c));
+	}
+	public static void Unregister(NativeErrorListener c)
+	{
+	    NativeErrorListener? output = null;
+	    mapping.RemoveAll((m) => m.TryGetTarget(out output) && object.ReferenceEquals(output, c));
+	}
+
+	protected static void Scanner_DataEvent(IntPtr JNIEnv,IntPtr objectOrClasss,IntPtr p0) 
+	{
+	    NativeErrorListener pobject = new NativeErrorListener(new JClone<JObject>() { Value = JNI.NewGlobalRef<JObject>(new JObject(objectOrClasss, JNI.ReferenceType.Local)) });
+	    jpos.events.ErrorEvent pp0 = new jpos.events.ErrorEvent(new JClone<JObject>() { Value = JNI.NewGlobalRef<JObject>(new JObject(p0, JNI.ReferenceType.Local)) });
+	    nativeEvents?.Scanner_DataEvent(pobject,pp0);
+	}
+
+	public void Scanner_DataEvent(jpos.events.ErrorEvent p0) 
+	{
+	    throw new NotImplementedException();
+	}
+
+
+	[DebuggerNonUserCode]
+	public void errorOccurred(jpos.events.ErrorEvent p0) 
+	{
+	    JNI.CallVoidMethod(this, _merrorOccurred0, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
+	static NativeErrorListener()
+	{
+  	_class = JNI.FindClass("NativeErrorListener");
+  	if( _class == null ) throw new InvalidOperationException();
+  	_minit0 = _class.GetMethodID("<init>", _init0);
+  	if( _minit0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_merrorOccurred0 = _class.GetMethodID("errorOccurred", _errorOccurred0);
+  	if( _merrorOccurred0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	        Scanner_DataEventInternal evt = Scanner_DataEvent;
+  	    JNI.RegisterNatives(_class, new JNINativeMethod[] {
+  	        new JNINativeMethod() { name = "Scanner_DataEvent", signature = _Scanner_DataEvent0, fnPtr = Marshal.GetFunctionPointerForDelegate(evt) },
+  	    });
+	}
+}
+
+class NativeOutputCompleteListener : JObject {
+public interface Native {
+
+		public void Scanner_DataEvent(NativeOutputCompleteListener self,jpos.events.OutputCompleteEvent p0);
+
+	}
+	internal static Native? nativeEvents { get; set; }
+	protected static JClass _class;
+	protected static string _init0 = "()V";
+	protected static string _outputCompleteOccurred0 = "(Ljpos/events/OutputCompleteEvent;)V";
+	protected static string _Scanner_DataEvent0 = "(Ljpos/events/OutputCompleteEvent;)V";
+	protected static JMethodID _minit0;
+	protected static JMethodID _moutputCompleteOccurred0;
+
+	[DebuggerNonUserCode]
+	public static bool IsInstanceOf(JObject except)
+	{
+	  return JNI.IsInstanceOf(except, _class);
+	}
+	[DebuggerNonUserCode]
+	private static Exception FromThrowable(JThrowable except)
+	{
+	  if (jpos.JposException.IsInstanceOf(except))
+	  {
+	    jpos.JposException d = new jpos.JposException(new JClone<JObject>() { Value = except });
+	    d.printStackTrace();
+	    int errorCode = d.getErrorCode();
+	    int errorCodeExtended = d.getErrorCodeExtended();
+	    return new PosControlException(except.ToString(), (ErrorCode)errorCode, errorCodeExtended);
+	  }
+	  else
+	  {
+	    except.printStackTrace();
+	    return new JavaException(except.ToString());
+	  }
+	}
+
+	[DebuggerNonUserCode]
+	public NativeOutputCompleteListener(JClone<JObject> obj) : base(obj) {} 
+
+	public NativeOutputCompleteListener() : base(initialize()) {}
+	[DebuggerNonUserCode]
+	protected static JClone<JObject> initialize() 
+	{
+	    JObject ret = JNI.NewObject<JObject>(_class, _minit0);
+	    bool exception = JNI.ExceptionCheck();
+	    if (ret.Handle == IntPtr.Zero) throw new PosInvalidStateException();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+
+	    return new JClone<JObject>() { Value = ret } ;
+	}
+
+	delegate void Scanner_DataEventInternal(IntPtr JNIEnv,IntPtr objectOrClasss,IntPtr p0);
+	public static List<WeakReference<NativeOutputCompleteListener>> mapping = new List<WeakReference<NativeOutputCompleteListener>>();
+	public static bool TryGet(IntPtr refz, out NativeOutputCompleteListener? l)
+	{
+	    NativeOutputCompleteListener? output = null;
+	    var s = new JObject(refz, JNI.ReferenceType.Local);
+	    for (int i = 0; i < mapping.Count; i++)
+	    {
+	        if (mapping[0].TryGetTarget(out output) && JNI.IsSameObject(output, s) == true)
+	        {
+	            l = output;
+	            return true;
+	        }
+	    }
+	
+	    l = null;
+	    return false;
+	}
+	public static void Register(NativeOutputCompleteListener c)
+	{
+	    mapping.Add(new WeakReference<NativeOutputCompleteListener>(c));
+	}
+	public static void Unregister(NativeOutputCompleteListener c)
+	{
+	    NativeOutputCompleteListener? output = null;
+	    mapping.RemoveAll((m) => m.TryGetTarget(out output) && object.ReferenceEquals(output, c));
+	}
+
+	protected static void Scanner_DataEvent(IntPtr JNIEnv,IntPtr objectOrClasss,IntPtr p0) 
+	{
+	    NativeOutputCompleteListener pobject = new NativeOutputCompleteListener(new JClone<JObject>() { Value = JNI.NewGlobalRef<JObject>(new JObject(objectOrClasss, JNI.ReferenceType.Local)) });
+	    jpos.events.OutputCompleteEvent pp0 = new jpos.events.OutputCompleteEvent(new JClone<JObject>() { Value = JNI.NewGlobalRef<JObject>(new JObject(p0, JNI.ReferenceType.Local)) });
+	    nativeEvents?.Scanner_DataEvent(pobject,pp0);
+	}
+
+	public void Scanner_DataEvent(jpos.events.OutputCompleteEvent p0) 
+	{
+	    throw new NotImplementedException();
+	}
+
+
+	[DebuggerNonUserCode]
+	public void outputCompleteOccurred(jpos.events.OutputCompleteEvent p0) 
+	{
+	    JNI.CallVoidMethod(this, _moutputCompleteOccurred0, new JValue(p0));
+	    bool exception = JNI.ExceptionCheck();
+	    if (exception)
+	    {
+	        JThrowable except = JNI.ExceptionOccurred(); JNI.ExceptionClear(); throw FromThrowable(except);
+	    }
+	}
+
+	[DebuggerNonUserCode]
+	static NativeOutputCompleteListener()
+	{
+  	_class = JNI.FindClass("NativeOutputCompleteListener");
+  	if( _class == null ) throw new InvalidOperationException();
+  	_minit0 = _class.GetMethodID("<init>", _init0);
+  	if( _minit0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
+  	_moutputCompleteOccurred0 = _class.GetMethodID("outputCompleteOccurred", _outputCompleteOccurred0);
+  	if( _moutputCompleteOccurred0.Handle == IntPtr.Zero ) throw new InvalidOperationException();
   	        Scanner_DataEventInternal evt = Scanner_DataEvent;
   	    JNI.RegisterNatives(_class, new JNINativeMethod[] {
   	        new JNINativeMethod() { name = "Scanner_DataEvent", signature = _Scanner_DataEvent0, fnPtr = Marshal.GetFunctionPointerForDelegate(evt) },

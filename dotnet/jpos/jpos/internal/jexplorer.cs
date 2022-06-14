@@ -130,6 +130,7 @@ namespace test.jpos
             collection.Add(new jpos.DeviceInfo() { Name = "defaultScanner", Description = "defaultScanner", Type = jpos.DeviceType.Scanner,  UposVersion = "", LogicalNames = new string[] { "defaultScanner" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
             collection.Add(new jpos.DeviceInfo() { Name = "defaultPOSPrinter", Description = "defaultPOSPrinter", Type = jpos.DeviceType.PosPrinter, UposVersion = "", LogicalNames = new string[] { "defaultPOSPrinter" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
             collection.Add(new jpos.DeviceInfo() { Name = "defaultPINPad", Description = "defaultPINPad", Type = jpos.DeviceType.PinPad, UposVersion = "", LogicalNames = new string[] { "defaultPINPad" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            collection.Add(new jpos.DeviceInfo() { Name = "defaultCashDrawer", Description = "defaultCashDrawer", Type = jpos.DeviceType.CashDrawer, UposVersion = "", LogicalNames = new string[] { "defaultCashDrawer" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });                            
             return collection;
         }
 
@@ -142,6 +143,8 @@ namespace test.jpos
                 collection.Add(new jpos.DeviceInfo() { Name = "defaultPOSPrinter", Description = "defaultPOSPrinter", Type = jpos.DeviceType.PosPrinter, UposVersion = "", LogicalNames = new string[] { "defaultPOSPrinter" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
             if (type == jpos.DeviceType.PinPad)
                 collection.Add(new jpos.DeviceInfo() { Name = "defaultPINPad", Description = "defaultPINPad", Type = jpos.DeviceType.PinPad, UposVersion = "", LogicalNames = new string[] { "defaultPINPad" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });
+            if (type == jpos.DeviceType.CashDrawer)
+                collection.Add(new jpos.DeviceInfo() { Name = "defaultCashDrawer", Description = "defaultCashDrawer", Type = jpos.DeviceType.CashDrawer, UposVersion = "", LogicalNames = new string[] { "defaultCashDrawer" }, ServiceObjectName = "javapos", Compatibility = DeviceCompatibilities.CompatibilityLevel1 });                
             return collection;
         }
 

@@ -31,6 +31,13 @@
         <product description="Simulated Scanner" name="Simulated Scanner Service for JavaPOS(TM) Standard" url="http://www.javapos.com"/>        
     </JposEntry>
 
+    <JposEntry logicalName="defaultCashDrawer">
+        <creation factoryClass="org.jumpmind.pos.javapos.sim.SimulatedServiceInstanceFactory" serviceClass="org.jumpmind.pos.javapos.sim.SimulatedCashDrawerService"/>
+        <vendor name="Ergio" url="http://www.jumpmind.com"/>
+        <jpos category="CashDrawer" version="1.11"/>
+        <product description="Simulated CashDrawer" name="Simulated CashDrawer Service for JavaPOS(TM) Standard" url="http://www.javapos.com"/>        
+    </JposEntry>    
+
     <JposEntry logicalName="fiscalprinter">
         <creation factoryClass="org.jumpmind.pos.javapos.sim.SimulatedServiceInstanceFactory" serviceClass="org.jumpmind.pos.javapos.sim.SimulatedFiscalPrinterService"/>
         <vendor name="JumpMind, Inc" url="http://www.jumpmind.com"/>

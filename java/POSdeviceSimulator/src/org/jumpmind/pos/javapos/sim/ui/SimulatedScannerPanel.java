@@ -27,6 +27,7 @@ import org.jumpmind.pos.javapos.sim.SimulatedScannerService;
 
 public class SimulatedScannerPanel extends BaseSimulatedPanel {
 
+    protected static java.awt.Font customFont;
     protected static final long serialVersionUID = -3371467403985283645L;
 
     protected static SimulatedScannerPanel me = new SimulatedScannerPanel();
@@ -46,14 +47,59 @@ public class SimulatedScannerPanel extends BaseSimulatedPanel {
         return me;
     }
 
+
+
     public void init() {
+
+        try {
+            String path = java.lang.System.getenv("JAVA_FONT");
+            if( path == null ) path = "Fonts/custom_font.ttf";
+ 
+
+            //create the font to use. Specify the size!
+            customFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new java.io.File(path)).deriveFont(12f);
+            java.awt.GraphicsEnvironment ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        } catch(java.awt.FontFormatException e) {
+            e.printStackTrace();
+        }
     	
     	this.setName("SimulatedScanner");
 
+        if( customFont == null )
+        {
+            System.out.println("customFont is null. ");  
+        }
+        else
+        {
+            System.out.println("customFont is loaded. ");  
+        }
+
+        java.awt.GraphicsEnvironment ge;  
+        ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();  
+
+        String[] names = ge.getAvailableFontFamilyNames();
+        java.awt.Font[] allFonts = ge.getAllFonts();
+
+        for(int x=0; x<names.length; x++)
+            System.out.println(names[x]);
+
+        for(int x=0; x<allFonts.length; x++){           
+            System.out.println(allFonts[x].getName());
+            System.out.println(allFonts[x].getFontName());
+            System.out.println(allFonts[x].getFamily());
+            System.out.println(allFonts[x].getPSName());
+        }        
+
         final JButton button = new JButton("Scan Value In Text Box");
         button.setName("ScanValue");
+        if( customFont != null ) button.setFont(customFont);        
         final JTextField textField = new JTextField();
         textField.setName("ScanValue");
+        if( customFont != null ) textField.setFont(customFont);        
         
         loadItems();
 

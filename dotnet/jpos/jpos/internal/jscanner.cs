@@ -244,16 +244,57 @@ namespace test.jpos
             jobj.checkHealth((int)level);
         }
 
-
+        private test.jpos.DataListener? _DataListener;
+        private event DataEventHandler? _DataEvent;
+        private void Listener_OnDataReceived(object source, test.jpos.DataListener listener, test.jpos.DataEventArgs evt)
+        {
+            _DataEvent?.Invoke(this, evt);
+        }
         public override event DataEventHandler DataEvent
         {
-            add 
-            { 
-                //TODO:
+            add
+            {
+                lock (jobj)
+                {
+                    if (_DataListener == null)
+                    {
+                        _DataListener = new test.jpos.DataListener(null);
+                        _DataListener.OnDataReceived += Listener_OnDataReceived;
+                    }
+
+                    if (_DataEvent == null)
+                    {
+                        if (_DataListener != null)
+                        {
+                            addDataListener(_DataListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't attach DataEvent handler");
+                        }
+                    }
+
+                    _DataEvent += value;
+                }
             }
             remove
             {
-                //TODO:
+                lock (jobj)
+                {
+                    _DataEvent -= value;
+
+                    if (_DataEvent == null)
+                    {
+                        if (_DataListener != null)
+                        {
+                            removeDataListener(_DataListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't deattach DataEvent handler");
+                        }
+                    }
+                }
             }
         }
 
@@ -270,17 +311,60 @@ namespace test.jpos
 
         }
 
+
+        private test.jpos.StatusListener? _StatusListener;
+        private event StatusUpdateEventHandler? _StatusUpdateEvent;
+        private void StatusListener_OnDataReceived(object source, test.jpos.StatusListener listener, test.jpos.StatusUpdateEventArgs evt)
+        {
+            _StatusUpdateEvent?.Invoke(this, evt);
+        }
+
         public override event StatusUpdateEventHandler StatusUpdateEvent
         {
             add
             {
-                //TODO:
+                lock (jobj)
+                {
+                    if (_StatusListener == null)
+                    {
+                        _StatusListener = new test.jpos.StatusListener(null);
+                        _StatusListener.OnStatusUpdate += StatusListener_OnDataReceived;
+                    }
+
+                    if (_StatusUpdateEvent == null)
+                    {
+                        if (_StatusListener != null)
+                        {
+                            addStatusListener(_StatusListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't attach StatusUpdateEvent handler");
+                        }
+                    }
+
+                    _StatusUpdateEvent += value;
+                }
             }
             remove
             {
-                //TODO:
-            }
+                lock (jobj)
+                {
+                    _StatusUpdateEvent -= value;
 
+                    if (_StatusUpdateEvent == null)
+                    {
+                        if (_StatusListener != null)
+                        {
+                            removeStatusListener(_StatusListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't deattach StatusUpdateEvent handler");
+                        }
+                    }
+                }
+            }
         }
 
 
