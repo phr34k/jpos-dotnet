@@ -446,6 +446,8 @@ namespace test.jpos
 
         public abstract void ClearOutput();
 
+        public abstract void DirectIO(int command, int data, object p2);
+
 
         public abstract void addErrorListener(ErrorListener listener);
         public abstract void removeErrorListener(ErrorListener listener);

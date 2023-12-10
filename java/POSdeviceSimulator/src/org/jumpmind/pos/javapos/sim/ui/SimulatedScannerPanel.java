@@ -27,7 +27,7 @@ import org.jumpmind.pos.javapos.sim.SimulatedScannerService;
 
 public class SimulatedScannerPanel extends BaseSimulatedPanel {
 
-    protected static java.awt.Font customFont;
+    // static java.awt.Font customFont;
     protected static final long serialVersionUID = -3371467403985283645L;
 
     protected static SimulatedScannerPanel me = new SimulatedScannerPanel();
@@ -50,7 +50,7 @@ public class SimulatedScannerPanel extends BaseSimulatedPanel {
 
 
     public void init() {
-
+        /*
         try {
             String path = java.lang.System.getenv("JAVA_FONT");
             if( path == null ) path = "Fonts/custom_font.ttf";
@@ -66,9 +66,11 @@ public class SimulatedScannerPanel extends BaseSimulatedPanel {
         } catch(java.awt.FontFormatException e) {
             e.printStackTrace();
         }
+        */
     	
     	this.setName("SimulatedScanner");
 
+        /*
         if( customFont == null )
         {
             System.out.println("customFont is null. ");  
@@ -77,7 +79,9 @@ public class SimulatedScannerPanel extends BaseSimulatedPanel {
         {
             System.out.println("customFont is loaded. ");  
         }
+        */
 
+        /*
         java.awt.GraphicsEnvironment ge;  
         ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();  
 
@@ -92,14 +96,15 @@ public class SimulatedScannerPanel extends BaseSimulatedPanel {
             System.out.println(allFonts[x].getFontName());
             System.out.println(allFonts[x].getFamily());
             System.out.println(allFonts[x].getPSName());
-        }        
+        }  
+        */
 
         final JButton button = new JButton("Scan Value In Text Box");
         button.setName("ScanValue");
-        if( customFont != null ) button.setFont(customFont);        
+        //if( customFont != null ) button.setFont(customFont);        
         final JTextField textField = new JTextField();
         textField.setName("ScanValue");
-        if( customFont != null ) textField.setFont(customFont);        
+        //if( customFont != null ) textField.setFont(customFont);        
         
         loadItems();
 

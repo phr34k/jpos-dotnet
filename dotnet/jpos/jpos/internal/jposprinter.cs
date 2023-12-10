@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -287,6 +288,13 @@ namespace test.jpos
                 jobj.setPowerNotify((int)value);
             }
         }
+
+        [DebuggerNonUserCode]
+        public override void DirectIO(int command, int data, object p2)
+        { 
+            jobj.directIO(command, new JObject { Handle = IntPtr.Zero }, new JObject { Handle = IntPtr.Zero });
+        }
+
 
         [DebuggerNonUserCode]
         public override void CheckHealth(HealthCheckLevel level)

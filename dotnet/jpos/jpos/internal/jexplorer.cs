@@ -50,7 +50,6 @@ namespace test.jpos
 
             if (main.Handle != IntPtr.Zero)
             {
-
                 //example of how to pass arguments (passes c# string arguments to java)
                 List<JString> list = new List<JString>();
                 JObjectArray<JString> jStrings = JNI.NewObjectArray<JString>(args.Length, stringArray, null);
