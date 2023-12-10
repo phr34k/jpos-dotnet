@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -187,23 +188,25 @@ public class SimulatedScannerPanel extends BaseSimulatedPanel {
         SAXBuilder builder = new SAXBuilder();
         Document doc = null;
         String xmlFile = "/org/jumpmind/pos/javapos/sim/SimulatedScannerService.xml";
+        File f = new File(xmlFile); 
+        if(f.exists() && f.isFile()) 
+        {
+            try {
+                doc = builder
+                        .build(new InputStreamReader(SimulatedScannerService.class
+                                .getResourceAsStream(xmlFile)));
+                Element scanner = doc.getRootElement();
+                for (Object scannerObj : scanner.getChildren()) {
+                    Element itemXML = (Element) scannerObj;
 
-        try {
-            doc = builder
-                    .build(new InputStreamReader(SimulatedScannerService.class
-                            .getResourceAsStream(xmlFile)));
-            Element scanner = doc.getRootElement();
-            for (Object scannerObj : scanner.getChildren()) {
-                Element itemXML = (Element) scannerObj;
-
-                items.put(readElement(itemXML, "label"), readElement(itemXML,
-                        "id"));
+                    items.put(readElement(itemXML, "label"), readElement(itemXML,
+                            "id"));
+                }
+            } catch (Exception e) {
+                logger.error("Unable to preload items from " + xmlFile);
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            logger.error("Unable to preload items from " + xmlFile);
-            e.printStackTrace();
         }
-
     }
 
     public Object[] loadScannerItemBeans() {
