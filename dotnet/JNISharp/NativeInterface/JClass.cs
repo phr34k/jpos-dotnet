@@ -1,4 +1,7 @@
-﻿namespace JNISharp.NativeInterface;
+﻿using System;
+using System.Collections.Generic;
+
+namespace JNISharp.NativeInterface;
 
 public class JClass : JObject
 {

@@ -1,7 +1,9 @@
 ﻿namespace JNISharp.ToolInterface;
 
 using JNISharp.NativeInterface;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 internal class JVMTIArray<T> : IDisposable, IEnumerable<T>
 {

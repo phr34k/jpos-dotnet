@@ -1,4 +1,8 @@
 ﻿namespace JNISharp.NativeInterface;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 #pragma warning disable CS8600 // Rethrow to preserve stack details
 #pragma warning disable CS8605
 using System.Runtime.InteropServices;

@@ -1,6 +1,7 @@
 ﻿namespace JNISharp.NativeInterface;
 
 using System.Collections;
+using System.Collections.Generic;
 
 public class JObjectArray<T> : JObject, IEnumerable<T> where T : JObject, new()
 {

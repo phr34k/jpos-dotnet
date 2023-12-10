@@ -170,7 +170,7 @@ namespace test.jpos
                 d.Setup(dir, classPaths);
             }
              
-            return new JExplorer(System.IO.Path.GetFullPath(System.IO.Path.Join(dir, "./jpos.xml"))); 
+            return new JExplorer(System.IO.Path.GetFullPath(System.IO.Path.Combine(dir, "./jpos.xml"))); 
         }
 
         public abstract event DeviceChangedEventHandler DeviceAddedEvent;
@@ -222,13 +222,13 @@ namespace test.jpos
 	                classPaths.Add(System.IO.Path.Combine(directory, @"java/bin/"));
                 }
 
-                Console.WriteLine(string.Join(System.IO.Path.PathSeparator, classPaths));
+                Console.WriteLine(string.Join(System.IO.Path.PathSeparator.ToString(), classPaths));
 
 
 
                 JNI.Initialize(new JavaVMInitArgs(JNI.Version.V1_8,
                     new JavaVMOption[] {
-                    new JavaVMOption(@"-Djava.class.path=" + String.Join(System.IO.Path.PathSeparator, classPaths)),
+                    new JavaVMOption(@"-Djava.class.path=" + String.Join(System.IO.Path.PathSeparator.ToString(), classPaths)),
                     new JavaVMOption(@"-Dawt.useSystemAAFontSettings=on"),
                     new JavaVMOption(@"-Djava.library.path="),
                         //new JavaVMOption(@"-verbose:jni")

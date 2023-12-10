@@ -267,6 +267,75 @@ namespace test.jpos
             }
         }
 
+        [DebuggerNonUserCode]
+        public void addErrorListener(ErrorListener listener)
+        {
+            //jobj.addErrorListener(new internals.events.ErrorListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Register(this);
+        }
+
+        [DebuggerNonUserCode]
+        public void removeErrorListener(ErrorListener listener)
+        {
+            //jobj.removeErrorListener(new internals.events.ErrorListener(new JClone<JObject>() { Value = listener.jobj }));
+            listener.Unregister(this);
+        }
+
+
+        private test.jpos.ErrorListener? _ErrorListener;
+        private event DeviceErrorEventHandler? _ErrorEvent;
+        private void Listener_OnErrorReceived(object source, test.jpos.ErrorListener listener, test.jpos.DeviceErrorEventArgs evt)
+        {
+            _ErrorEvent?.Invoke(this, evt);
+        }
+        public override event DeviceErrorEventHandler ErrorEvent
+        {
+            add
+            {
+                lock (jobj)
+                {
+                    if (_ErrorListener == null)
+                    {
+                        _ErrorListener = new test.jpos.ErrorListener(null);
+                        _ErrorListener.OnError += Listener_OnErrorReceived;
+                    }
+
+                    if (_ErrorEvent == null)
+                    {
+                        if (_ErrorListener != null)
+                        {
+                            addErrorListener(_ErrorListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't attach DataEvent handler");
+                        }
+                    }
+
+                    _ErrorEvent += value;
+                }
+            }
+            remove
+            {
+                lock (jobj)
+                {
+                    _ErrorEvent -= value;
+
+                    if (_ErrorEvent == null)
+                    {
+                        if (_ErrorListener != null)
+                        {
+                            removeErrorListener(_ErrorListener);
+                        }
+                        else
+                        {
+                            throw new PosException("Couldn't deattach DataEvent handler");
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
 }

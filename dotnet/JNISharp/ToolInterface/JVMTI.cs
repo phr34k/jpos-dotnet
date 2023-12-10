@@ -2,6 +2,9 @@
 #pragma warning disable CS8600 // Rethrow to preserve stack details
 #pragma warning disable CS8604 // Rethrow to preserve stack details
 using JNISharp.NativeInterface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 

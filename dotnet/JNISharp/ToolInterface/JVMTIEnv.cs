@@ -1,5 +1,6 @@
 ﻿namespace JNISharp.ToolInterface;
 
+using System;
 using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential)]

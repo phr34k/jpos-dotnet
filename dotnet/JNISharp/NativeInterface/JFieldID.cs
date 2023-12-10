@@ -1,4 +1,6 @@
-﻿namespace JNISharp.NativeInterface;
+﻿using System;
+
+namespace JNISharp.NativeInterface;
 
 public readonly struct JFieldID : IEquatable<JFieldID>
 {

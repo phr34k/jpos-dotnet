@@ -426,6 +426,7 @@ namespace test.jpos
         public abstract PowerReporting CapPowerReporting { get; }
 
         public abstract PrinterCartridgeNotify CartridgeNotify { get; set; }
+        public abstract bool FlagWhenIdle { get; set; }
 
         public abstract bool CapRecPaperCut { get; }
         public abstract bool CapTransaction { get; }
@@ -487,6 +488,8 @@ namespace test.jpos
 
         public abstract void OpenDrawer();
         public abstract void WaitForDrawerClose(int beepTimeout, int beepFrequency, int beepDuration, int beepDelay);
+
+        public abstract event DeviceErrorEventHandler ErrorEvent;
     }
 
 
@@ -498,5 +501,8 @@ namespace test.jpos
     public abstract class RemoteOrderDisplay : PosCommon
     {
         public RemoteOrderDisplay(DeviceInfo info) : base(info) { }
+
+        public abstract event DeviceErrorEventHandler ErrorEvent;
+
     }
 }

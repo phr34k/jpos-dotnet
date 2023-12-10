@@ -1,4 +1,6 @@
-﻿namespace JNISharp.ToolInterface;
+﻿using System;
+
+namespace JNISharp.ToolInterface;
 
 [Flags]
 public enum JMethodAccessFlags

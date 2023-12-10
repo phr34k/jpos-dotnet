@@ -1,5 +1,6 @@
 ﻿namespace JNISharp.NativeInterface;
 
+using System;
 using System.Runtime.InteropServices;
 
 /// <summary>

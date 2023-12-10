@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0;net471</TargetFrameworks>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Authors>Warren Ulrich</Authors>
     <Description>JNI &amp; JVMTI bindings for C#.</Description>
@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/WarrenUlrich/JNISharp</RepositoryUrl>
     <PackageTags>JNI, JVMTI, Java, JVM</PackageTags>
     <NeutralLanguage />
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

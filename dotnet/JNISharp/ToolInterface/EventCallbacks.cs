@@ -1,6 +1,7 @@
 ﻿namespace JNISharp.ToolInterface;
 
 using JNISharp.NativeInterface;
+using System;
 using System.Runtime.InteropServices;
 
 

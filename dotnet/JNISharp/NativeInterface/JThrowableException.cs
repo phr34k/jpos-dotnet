@@ -1,4 +1,6 @@
-﻿namespace JNISharp.NativeInterface;
+﻿using System;
+
+namespace JNISharp.NativeInterface;
 
 public class JThrowableException : Exception
 {

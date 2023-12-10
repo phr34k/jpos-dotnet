@@ -151,6 +151,20 @@ namespace test.jpos
             }
         }
 
+        public override bool FlagWhenIdle
+        {
+            [DebuggerNonUserCode]
+            get
+            {
+                return jobj.getFlagWhenIdle();
+            }
+            [DebuggerNonUserCode]
+            set
+            {
+                jobj.setFlagWhenIdle(value);
+            }
+        }
+
 
 
         public override bool Claimed
